@@ -51,6 +51,15 @@ body {
   overflow-x: hidden;
 }
 
+main{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6rem 30px;
+  min-height: 1400px;
+  background: white;
+}
 
 button {
   background: none;
