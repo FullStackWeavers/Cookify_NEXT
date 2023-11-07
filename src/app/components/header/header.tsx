@@ -5,10 +5,13 @@ import './css/header.css'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 export default function Header() {
 
   const [isFindShow, setIsFindShow] = useState(true)
+  const [isHidden, setIsHidden] = useState(true)
+  const currentPath = usePathname();
 
   const ClickBtn = () => {
     if (isFindShow === true) {
@@ -20,9 +23,14 @@ export default function Header() {
 
   useEffect(() => {
     setIsFindShow(true)
+    if(currentPath == "/start"){
+      setIsHidden(false)
+    }else{
+      setIsHidden(true)
+    }
   },[])
 
-  return (
+  return isHidden? (
     <header >
       <section className='left'>
         <Link href="/">
@@ -38,5 +46,5 @@ export default function Header() {
         </button>
       </section>
     </header>
-  )
+  ):null;
 }

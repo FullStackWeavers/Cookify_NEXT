@@ -1,5 +1,57 @@
+@use '../../mixin.scss' as m;
+
 .main {
-  h4 {
-    color: red;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  min-height: 800px;
+}
+
+.left {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  min-width: 50%;
+  height: 100vh;
+  background: #D2DE32;
+  div {
+    width: 60%;
+    height: 40%;
+    margin-top: 30%;
+    text-align: center;
+    img{
+      width: 100%;
+      height: 100%;
+      padding-bottom: 10%;
+    }
+    h1{
+      padding-bottom: 5%;
+    }
   }
 }
+
+.right {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 50%;
+  height: 100vh;
+  text-align: center;
+  @media #{m.$desktop}{
+    background: black;
+  }
+  background: white;
+  .title{
+      margin-top: 6vh;
+      margin-right: 5vw;
+      text-align: right;
+      font-size: 2.2vw;
+    }
+  .login{
+    margin: 0 auto;
+    margin-top: 12vh;
+  }
+}
+

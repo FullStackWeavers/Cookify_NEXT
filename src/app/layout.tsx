@@ -19,9 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`example ${inter.className}`}>
         <MyContent/>
-        <Header/>
+        <Header />
         {children}
         <Footer />
       </body>

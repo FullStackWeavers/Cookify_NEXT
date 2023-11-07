@@ -67,4 +67,6 @@ a {
   text-decoration: none;
 }
 
-
+.example {
+  background-color: red;
+}
