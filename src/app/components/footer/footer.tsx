@@ -1,21 +1,22 @@
-import './css/footer.css'
+import styles from './css/footer.module.css'
 
 export default function Footer() {
   return (
-    <footer >
-      <section className='left'>
+    <footer className={styles.footer}>
+      <section className={styles.left}>
         <span >Cookify Recipe Hub</span>
-
+        <div>
+        </div>
       </section>
-      <section className='right'>
-        <div className='help_center'>
+      <section className={styles.right}>
+        <div className={styles.help_center}>
           <h3>Help Center</h3>
           <p>FAQs</p>
           <p>Contact Us</p>
           <p>Cooking Tips</p>
           <p>Get in Touch</p>
         </div>
-        <div className='about_us'>
+        <div className={styles.about_us}>
           <h3>About Us</h3>
           <p>Privacy Policy</p>
           <p>Sitemap</p>

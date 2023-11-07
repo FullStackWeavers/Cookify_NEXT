@@ -3,13 +3,11 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp, faSquareCheck } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp, faHeart, faSquareCheck } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import Link from 'next/link'
 
 export default function Home() {
-
-  const image_link = '/popular_recipes_image.png'
 
   const [isRecipeTypeOpen, setIsRecipeTypeOpen] = useState(false)
   const [isIngredientsOpen, setIsIngredientsOpen] = useState(false)
@@ -48,7 +46,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <section className={styles.popular_recipes_container}>
-        <Image className={styles.image} src={image_link} alt="Profile Image" width={2000} height={600} />
+        <Image className={styles.image} src='/popular_recipes_image.png' alt="Profile Image" width={2000} height={600} />
       </section>
       <section className={styles.middle_container}>
         <div className={styles.filter_recipes}>
@@ -177,11 +175,118 @@ export default function Home() {
             </Link>
           </div>
           <div className={styles.downContainer}>
-
+            <div className={styles.docs_card}>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <span className={styles.docs_card_name}>음식 이름</span>
+              <div className={styles.likeBtnBox}>
+                <button className={styles.likeBtn}>
+                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+                  <span>15</span>
+                </button>
+              </div>
+            </div>
+            <div className={styles.docs_card}>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <span className={styles.docs_card_name}>음식 이름</span>
+              <div className={styles.likeBtnBox}>
+                <button className={styles.likeBtn}>
+                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+                  <span>15</span>
+                </button>
+              </div>
+            </div>
+            <div className={styles.docs_card}>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <span className={styles.docs_card_name}>음식 이름</span>
+              <div className={styles.likeBtnBox}>
+                <button className={styles.likeBtn}>
+                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+                  <span>15</span>
+                </button>
+              </div>
+            </div>
+            <div className={styles.docs_card}>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <span className={styles.docs_card_name}>음식 이름</span>
+              <div className={styles.likeBtnBox}>
+                <button className={styles.likeBtn}>
+                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+                  <span>15</span>
+                </button>
+              </div>
+            </div>
+            <div className={styles.docs_card}>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <span className={styles.docs_card_name}>음식 이름</span>
+              <div className={styles.likeBtnBox}>
+                <button className={styles.likeBtn}>
+                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+                  <span>15</span>
+                </button>
+              </div>
+            </div>
+            <div className={styles.docs_card}>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <span className={styles.docs_card_name}>음식 이름</span>
+              <div className={styles.likeBtnBox}>
+                <button className={styles.likeBtn}>
+                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+                  <span>15</span>
+                </button>
+              </div>
+            </div>
+            <div className={styles.docs_card}>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <span className={styles.docs_card_name}>음식 이름</span>
+              <div className={styles.likeBtnBox}>
+                <button className={styles.likeBtn}>
+                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+                  <span>15</span>
+                </button>
+              </div>
+            </div>
+            <div className={styles.docs_card}>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <span className={styles.docs_card_name}>음식 이름</span>
+              <div className={styles.likeBtnBox}>
+                <button className={styles.likeBtn}>
+                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+                  <span>15</span>
+                </button>
+              </div>
+            </div>
+            <div className={styles.docs_card}>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <span className={styles.docs_card_name}>음식 이름</span>
+              <div className={styles.likeBtnBox}>
+                <button className={styles.likeBtn}>
+                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+                  <span>15</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
       <section className={styles.last_container}>
+        <div className={styles.word}>
+          <span>Browse All Recipes</span>
+          <div >
+            <em>Discover a world of delicious recipes with our curated selection.</em>
+            <em>Whether you are looking for a quick weeknight dinner or a show-</em>
+            <em>stopping dessert, we have a recipe for every occasion. All our</em>
+            <em>recipes are made with fresh ingredients and easy-to-follow</em>
+            <em>instructions. Start exploring now!</em>
+          </div>
+        </div>
+        <div className={styles.content}>
+          <div className={styles.card}>
+            <Image src="/card1.png" alt="cardImage" width={230} height={180} />
+          </div>
+          <div className={styles.card}>
+            <Image src="/card2.png" alt="cardImage" width={230} height={180} />
+          </div>
+        </div>
       </section>
     </main>
   )
