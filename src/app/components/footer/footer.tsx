@@ -15,7 +15,7 @@ export default function Footer() {
           <p>Cooking Tips</p>
           <p>Get in Touch</p>
         </div>
-        <div className='aboutus'>
+        <div className='about_us'>
           <h3>About Us</h3>
           <p>Privacy Policy</p>
           <p>Sitemap</p>

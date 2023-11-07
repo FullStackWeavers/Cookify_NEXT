@@ -3,7 +3,114 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
+  padding: 6rem 0;
   min-height: 1400px;
   background: white;
+  .popular_recipes_container {
+    width: 100%;
+    height: 600px;
+    background: blue;
+    Image {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .middle_container {
+    display: flex;
+    width: 100%;
+    height: 800px;
+    .filter_recipes {
+      width: 300px;
+      height: 800px;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      .filter_recipes_title {
+        text-align: start;
+        margin: 30px;
+      }
+      .content {
+        margin: 0 30px;
+        border: 1px solid rgb(189, 197, 206);
+        border-radius: 5px;
+        padding: 10px;
+        .content_title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          h3 {
+            font-weight: 500;
+          }
+        }
+        .content_list {
+          padding: 10px;
+          list-style: none;
+
+          li {
+            display: flex;
+            margin: 5px 0;
+          }
+
+          .checkBox[type='checkbox'] {
+            margin-right: 10px;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #1edc83;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+          }
+
+          .checkBox[type='checkbox']:checked {
+            background-color: #1edc83;
+            border-color: #1edc83;
+          }
+        }
+      }
+    }
+    .filtered_recipes {
+      flex: auto;
+      display: flex;
+      flex-direction: column;
+      .upContainer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+        width: 100%;
+        height: 100px;
+        .whenBtn {
+          button {
+            background-color: rgb(222, 226, 231);
+            border-radius: 10px;
+            font-size: 18px;
+            margin-right: 20px;
+            width: 130px;
+            height: 40px;
+            &:hover {
+              background-color: rgb(188, 192, 197);
+            }
+          }
+        }
+        .postBtn {
+          background-color: #d2de32;
+          font-size: 18px;
+          border: 1px solid rgb(192, 198, 205);
+          border-radius: 10px;
+          width: 130px;
+          height: 50px;
+          padding: 10px;
+          &:hover {
+            background-color: #b1ba29;
+          }
+        }
+      }
+      .downContainer {
+        width: 100%;
+        height: 1000px;
+        background-color: blue;
+      }
+    }
+  }
 }
