@@ -170,11 +170,11 @@ export default function Home() {
               <button>저녁</button>
               <button>디저트</button>
             </div>
-            <button className={styles.postBtn}>
-              <Link href="/posting">
+            <Link href="/posting">
+              <button className={styles.postBtn}>
                 레시피 작성
-              </Link>
-            </button>
+              </button>
+            </Link>
           </div>
           <div className={styles.downContainer}>
 
