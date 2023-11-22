@@ -23,7 +23,7 @@ export default function Header() {
 
   useEffect(() => {
     setIsFindShow(true)
-    if(currentPath == "/start"){
+    if(currentPath == "/start" || currentPath == "/mypage"){
       setIsHidden(false)
     }else{
       setIsHidden(true)

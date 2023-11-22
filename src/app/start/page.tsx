@@ -2,21 +2,9 @@
 
 import styles from './css/page.module.css'
 import Login from '../components/login/page'
-import { useEffect, useState } from 'react'
-import Router from 'next/router'
 
 export default function LoginAndSignUp() {
   
-const [isLogin, setIsLogin] = useState(false)
-const [isSignUp, setIsSignUp] = useState(false)
-
-// const sign
-
-useEffect(() => {
-  if(isLogin){
-    Router.push("/")
-  }
-})
 
   return (
     <main className={styles.main}>

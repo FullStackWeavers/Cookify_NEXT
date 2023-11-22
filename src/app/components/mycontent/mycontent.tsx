@@ -1,11 +1,26 @@
+'use client'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './css/mycontent.css'
 import { faBell, faCartShopping, faComment } from '@fortawesome/free-solid-svg-icons'
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function MyContent() {
-  return (
+  const [isHidden, setIsHidden] = useState(true)
+  const currentPath = usePathname();
+
+  useEffect(() => {
+    if(currentPath == "/start"){
+      setIsHidden(false)
+    }else{
+      setIsHidden(true)
+    }
+  },[])
+
+  return isHidden? (
     <div className='container'>
       <Link href="/message">
         <button>
@@ -28,5 +43,5 @@ export default function MyContent() {
         </div>
       </Link>
     </div>
-  )
+  ):null
 }

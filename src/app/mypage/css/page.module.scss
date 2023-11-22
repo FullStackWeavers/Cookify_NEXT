@@ -1,5 +1,73 @@
 .main {
-  h4 {
-    color: red;
+  // h4 {
+  //   color: black;
+  // }
+  display: flex;
+  padding: 0;
+  .mypage__bar {
+    width: 18%;
+    height: 100vh;
+    text-align: center;
+    background-color: #cfcfcf;
+    h2 {
+      padding-top: 30px;
+      font-size: 3vw;
+    }
+    .mypage__bar__menu,
+    .mypage__bar__logout {
+      text-align: left;
+      font-size: 1.4vw;
+      font-weight: bold;
+      p {
+        padding: 5px 3vw;
+      }
+      :hover {
+        background-color: white;
+      }
+    }
+    .mypage__bar__menu {
+      margin: 5vh 0;
+    }
+    .mypage__bar__logout {
+      padding-top: 50vh;
+    }
   }
+  div {
+    width: 100%;
+    .mypage__search {
+      padding-top: 30px;
+      background-color: blue;
+    }
+    .mypage__component {
+      padding: 0 30px;
+      background-color: white;
+      h3 {
+        padding: 30px 0;
+      }
+      .mypage__component__recipe {
+        background-color: white;
+        max-height: 85vh;
+        overflow-y: auto;
+        div {
+          display: inline-block;
+          width: 275px;
+          margin: 10px;
+          img {
+            border-radius: 10px;
+            width: 100%;
+            opacity: 0.7;
+            background-color: green;
+          }
+          p {
+            top: 50%;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+.mypage__bar__icon {
+  margin-right: 3px;
 }

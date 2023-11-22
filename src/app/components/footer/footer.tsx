@@ -9,7 +9,7 @@ export default function Footer() {
   const currentPath = usePathname();
 
   useEffect(() => {
-    if(currentPath == "/start"){
+    if(currentPath == "/start" || currentPath == "/mypage"){
       setIsHidden(false)
     }else{
       setIsHidden(true)

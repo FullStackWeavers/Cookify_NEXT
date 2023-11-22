@@ -39,9 +39,9 @@
   min-width: 50%;
   height: 100vh;
   text-align: center;
-  @media #{m.$desktop}{
-    background: black;
-  }
+  // @media #{m.$desktop}{
+  //   background: white;
+  // }
   background: white;
   .title{
       margin-top: 6vh;
