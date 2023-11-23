@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './css/page.module.css'
 import { faEllipsis, faHeart, faMessage, faUtensils } from '@fortawesome/free-solid-svg-icons'
-import { useEffect, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 import axios from 'axios'
 
 export default function Docs() {
@@ -12,46 +12,51 @@ export default function Docs() {
   const [theIngredients2, setTheIsIngredients2] = useState(false);
   const [isRecipeSteps, setIsRecipeSteps] = useState<string[]>([]);
 
-
-  const reIngredients = () => {
-    let a = (isRecipe.ingredients).replace(/구매/g, ' ')
+  const reIngredients = (data: { ingredients: any }) => {
+    let a = (data.ingredients).replace(/구매/g, ' ')
     let b = a.split(",")
     setIsIngredients(b)
-    console.log(isIngredients);
-
   }
 
-  const reIngredients2 = () => {
-    let a = (isRecipe.ingredients2).replace(/구매/g, ' ')
+  const reIngredients2 = (data: { ingredients2: any }) => {
+    let a = (data.ingredients2).replace(/구매/g, ' ')
     let b = a.split(",")
     setIsIngredients2(b)
-    console.log(isIngredients);
+    Ingredients2();
   }
 
   const Ingredients2 = () => {
-    setTheIsIngredients2(isIngredients2.length == 0 ? true : false)
+    setTheIsIngredients2(isIngredients2.length > 1 ? true : false)
   }
 
-  const recipeSteps = () => {
-    let reSteps = (isRecipe.steps).split('.')
+  const recipeSteps = async(data: { steps: any }) => {
+    const redata = (data.steps).split('.')
+    const reSteps: SetStateAction<string[]> = []
+    for (let i = 0; i < redata.length; i++) {
+      if(redata[i].charAt(0) == ","){
+        reSteps.push(redata[i].slice(1, redata[i].length -1))
+      }else{
+        reSteps.push(redata[i])
+      }
+    }
     setIsRecipeSteps(reSteps);
   }
 
   useEffect(() => {
     const docsData = async () => {
       try {
-        const recipeDocs = await axios.get("http://localhost:8080/recipe/recipe_docs/6");
-        setIsRecipe(recipeDocs.data)
+        const recipeDocs = await axios.get("http://localhost:8080/recipe/recipe_docs/14");
+        setIsRecipe(recipeDocs.data);
+        reIngredients(recipeDocs.data);
+        reIngredients2(recipeDocs.data);
+        recipeSteps(recipeDocs.data);
       } catch (error) {
         alert('조회 에러');
       }
     };
     docsData();
-    reIngredients();
-    reIngredients2();
-    Ingredients2();
-    recipeSteps();
   }, []);
+
 
   return (
     <main className={styles.main}>
@@ -85,7 +90,9 @@ export default function Docs() {
               isIngredients.map((item) => {
                 return (
                   <li>
-                    <p>{item}</p>
+                    <ul>
+                      <p>{item}</p>
+                    </ul>
                   </li>
                 )
               })
@@ -122,10 +129,8 @@ export default function Docs() {
         </h1>
         <div className={styles.docs__ricipe__list}>
           {isRecipeSteps.map((item, index) => {
-            if(item.length == 0){
-              
-            }
             return (
+              item.length > 1 ?
               <li>
                 <ul>
                   <div>
@@ -134,6 +139,7 @@ export default function Docs() {
                   <p className={styles.docs__ricipe__comment}>{item}</p>
                 </ul>
               </li>
+            :null
             )
           })}
         </div>
