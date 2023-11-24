@@ -89,6 +89,7 @@ export default function Docs() {
             {
               isIngredients.map((item) => {
                 return (
+                  // eslint-disable-next-line react/jsx-key
                   <li>
                     <ul>
                       <p>{item}</p>
@@ -104,6 +105,7 @@ export default function Docs() {
                 <h2>[재료2]</h2>
                 {isIngredients2.map((item) => {
                   return (
+                    // eslint-disable-next-line react/jsx-key
                     <li>
                       <ul>
                         <p>{item}</p>

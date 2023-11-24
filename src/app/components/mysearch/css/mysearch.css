@@ -1,0 +1,33 @@
+.search {
+  position: fixed;
+  width: 100%;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 0;
+  padding: 0 30px;
+}
+.search div {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  width: 60%;
+  height: 40px;
+  font-size: 18px;
+  border-radius: 5px;
+  background-color: #cfcfcf;
+}
+.search div input {
+  flex-grow: 1;
+  width: 95%;
+  height: 100%;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: #cfcfcf;
+}
+.search div .icon {
+  padding: 10px;
+}/*# sourceMappingURL=mysearch.css.map */

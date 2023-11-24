@@ -1,1 +1,29 @@
-/*# sourceMappingURL=page.module.css.map */
+.mypage__component {
+  padding: 0 30px;
+  height: 100vh;
+  background-color: white;
+}
+.mypage__component h3 {
+  padding-top: 10vh;
+  padding-bottom: 2vh;
+}
+.mypage__component .mypage__component__recipe {
+  height: 80vh;
+  background-color: white;
+  overflow-y: auto;
+}
+.mypage__component .mypage__component__recipe div {
+  display: inline-block;
+  width: 275px;
+  margin: 10px;
+}
+.mypage__component .mypage__component__recipe div img {
+  border-radius: 10px;
+  width: 100%;
+  opacity: 0.4;
+  background-color: green;
+}
+.mypage__component .mypage__component__recipe div p {
+  background-color: red;
+  text-align: center;
+}/*# sourceMappingURL=page.module.css.map */

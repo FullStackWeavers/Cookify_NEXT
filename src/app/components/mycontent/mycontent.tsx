@@ -7,10 +7,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import ChatModal from '../modal/chat/page';
 
 export default function MyContent() {
   const [isHidden, setIsHidden] = useState(true)
   const currentPath = usePathname();
+  const [isChat, setIsChat] = useState(true)
+
+  const ChatModalClick= () => {
+    setIsChat(!isChat)
+  }
 
   useEffect(() => {
     if(currentPath == "/start"){
@@ -22,11 +28,10 @@ export default function MyContent() {
 
   return isHidden? (
     <div className='container'>
-      <Link href="/message">
-        <button>
+        <button onClick={ChatModalClick}>
           <FontAwesomeIcon className='icon' icon={faComment} />
         </button>
-      </Link>
+        {!isChat ? <ChatModal ChatModalClick = {ChatModalClick}/>:null}
       <Link href="/alarm">
         <button>
           <FontAwesomeIcon className='icon' icon={faBell} />
