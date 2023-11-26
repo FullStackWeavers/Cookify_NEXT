@@ -43,17 +43,25 @@
   font-size: 1.3vw;
 }
 .posting__title div .posting__image {
+  width: 150px;
+  padding: 5px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   border-radius: 10px;
   background-color: #d2de32;
-}
-.posting__title div .posting__image p {
-  font-size: 15px;
   padding: 10px;
+}
+.posting__title div .posting__image .icon {
+  width: 10px;
+  padding-right: 10px;
+}
+.posting__title div .posting__image .explain {
+  font-size: 15px;
 }
 
 .posting__ingredient {
+  min-height: 600px;
   background-color: white;
   border: 1px solid gray;
   border-radius: 10px;
@@ -124,6 +132,7 @@
 }
 
 .posting__ricipe {
+  min-height: 600px;
   background-color: white;
   padding: 1vh 2vw;
   border: 1px solid gray;

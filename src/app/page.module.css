@@ -10,6 +10,7 @@
 .main .popular_recipes_container {
   width: 100%;
   height: 600px;
+  overflow: hidden;
 }
 .main .popular_recipes_container Image {
   width: 100%;

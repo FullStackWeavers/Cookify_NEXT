@@ -16,10 +16,12 @@ export default function Posting() {
             <p>user name</p>
           </span>
           <button className={styles.posting__image}>
-            <p>
-              <FontAwesomeIcon icon={faFileArrowUp} />
-              이미지 업로드
-            </p>
+            <span className='icon'>
+              <FontAwesomeIcon  icon={faFileArrowUp} />
+            </span>
+            <span className='explain'>
+              대표 이미지 업로드
+            </span>
           </button>
         </div>
       </div>

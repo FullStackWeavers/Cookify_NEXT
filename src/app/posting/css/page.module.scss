@@ -1,10 +1,9 @@
 .main {
   background-color: white;
-  button{
+  button {
     background-color: #d2de32;
   }
 }
-
 
 .posting__title {
   background-color: white;
@@ -42,19 +41,27 @@
       }
     }
     .posting__image {
+      width: 150px;
+      padding: 5px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       border-radius: 10px;
       background-color: #d2de32;
-      p {
+      padding: 10px;
+      .icon {
+        width: 10px;
+        padding-right: 10px;
+      }
+      .explain {
         font-size: 15px;
-        padding: 10px;
       }
     }
   }
 }
 
 .posting__ingredient {
+  min-height: 600px;
   background-color: white;
   border: 1px solid gray;
   border-radius: 10px;
@@ -79,7 +86,7 @@
     border: 1px solid #e4e6ea;
     box-shadow: 2px 2px 2px gray;
     margin: 15px 0;
-    .posting__ingredient__item{
+    .posting__ingredient__item {
       width: 50%;
       padding: 0 10px;
       div {
@@ -97,7 +104,7 @@
           border-radius: 10px;
           background-color: #d2de32;
         }
-        input{
+        input {
           width: 40%;
           margin-right: 5px;
         }
@@ -125,6 +132,7 @@
 }
 
 .posting__ricipe {
+  min-height: 600px;
   background-color: white;
   padding: 1vh 2vw;
   border: 1px solid gray;
@@ -132,12 +140,12 @@
   box-shadow: 2px 2px 2px gray;
   margin: 15px 0;
   text-align: right;
-  button{
+  button {
     width: 100px;
     padding: 5px 10px;
     border-radius: 30px;
   }
-  .posting__ricipe__title{
+  .posting__ricipe__title {
     display: flex;
     justify-content: space-between;
     align-items: center;
