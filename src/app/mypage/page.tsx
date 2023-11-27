@@ -7,6 +7,7 @@ import MyFollow from '../components/myfollow/page'
 import MyProfile from '../components/myprofile/page'
 import MyLike from '../components/mylike/page'
 import { useState } from 'react'
+import MyInfo from '../components/myinfo/page'
 
 export default function MyPage() {
   const [isMyPage, setIsMyPage] = useState("MyRecipe")
@@ -17,8 +18,8 @@ export default function MyPage() {
 
   const MyPageCheack = () => {
     switch (isMyPage) {
-      case 'MyProfile':
-        return <MyProfile />;
+      case 'MyInfo':
+        return <MyInfo />;
       case 'MyFollow':
         return <MyFollow />;
       case 'MyRecipe':
@@ -35,7 +36,7 @@ export default function MyPage() {
       <div className={styles.mypage__bar}>
         <h2>Cookify</h2>
         <div className={styles.mypage__bar__menu}>
-          <button onClick={() => MyPageClick("MyProfile")}><FontAwesomeIcon className={styles.mypage__bar__icon} icon={faUser} />내 정보</button>
+          <button onClick={() => MyPageClick("MyInfo")}><FontAwesomeIcon className={styles.mypage__bar__icon} icon={faUser} />내 정보</button>
           <button onClick={() => MyPageClick("MyFollow")}><FontAwesomeIcon className={styles.mypage__bar__icon} icon={faUsers} />팔로워</button>
           <button onClick={() => MyPageClick("MyRecipe")}><FontAwesomeIcon className={styles.mypage__bar__icon} icon={faBook} />나의 레시피</button>
           <button onClick={() => MyPageClick("MyLike")}><FontAwesomeIcon className={styles.mypage__bar__icon} icon={faHeart} />좋아요</button>
@@ -46,7 +47,7 @@ export default function MyPage() {
         </div>
       </div>
       <div>
-       {MyPageCheack()}
+        {MyPageCheack()}
       </div>
     </main>
   )

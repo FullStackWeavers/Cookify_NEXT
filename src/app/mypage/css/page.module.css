@@ -50,26 +50,6 @@
   padding-top: 10vh;
   padding-bottom: 2vh;
 }
-.main div .mypage__component .mypage__component__recipe {
-  height: 80vh;
-  background-color: white;
-  overflow-y: auto;
-}
-.main div .mypage__component .mypage__component__recipe div {
-  display: inline-block;
-  width: 275px;
-  margin: 10px;
-}
-.main div .mypage__component .mypage__component__recipe div img {
-  border-radius: 10px;
-  width: 100%;
-  opacity: 0.4;
-  background-color: green;
-}
-.main div .mypage__component .mypage__component__recipe div p {
-  background-color: red;
-  text-align: center;
-}
 
 .mypage__bar__icon {
   margin-right: 3px;
