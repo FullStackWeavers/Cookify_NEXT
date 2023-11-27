@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import './css/footer.module.css'
+import './css/footer.css'
 import { usePathname } from 'next/navigation';
 
 export default function Footer() {
@@ -16,8 +16,8 @@ export default function Footer() {
     }
   },[])
 
-  return isHidden? (
-    <footer >
+  return (
+    <footer>
       <section className='left'>
         <span >Cookify Recipe Hub</span>
 
@@ -38,5 +38,5 @@ export default function Footer() {
         </div>
       </section>
     </footer>
-  ): null
+  )
 }

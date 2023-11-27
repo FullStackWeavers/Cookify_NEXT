@@ -46,7 +46,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <section className={styles.popular_recipes_container}>
-        <Image className={styles.image} src='/popular_recipes_image.png' alt="Profile Image" width={2000} height={600} />
+        <Image className={styles.image} src='/popular_recipes_image.png' alt="Profile Image" width={2000} height={600} layout='responsive'/>
       </section>
       <section className={styles.middle_container}>
         <div className={styles.filter_recipes}>

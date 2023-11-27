@@ -1,0 +1,27 @@
+footer {
+  background: white;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  .left {
+    width: 400px;
+    font-size: 25px;
+  }
+  .right {
+    width: 700px;
+    display: flex;
+    .help_center {
+      margin-right: 300px;
+      p {
+        margin: 5px 0;
+      }
+    }
+    .about_us {
+      p {
+        margin: 5px 0;
+      }
+    }
+  }
+}
