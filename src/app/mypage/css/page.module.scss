@@ -1,7 +1,4 @@
 .main {
-  // h4 {
-  //   color: black;
-  // }
   display: flex;
   padding: 0;
   height: 100vh;
@@ -13,25 +10,29 @@
     background-color: #cfcfcf;
     h2 {
       padding-top: 30px;
-      font-size: 3vw;
+      font-size: 40px;
     }
-    .mypage__bar__menu,
-    .mypage__bar__logout {
-      text-align: left;
-      font-size: 1.4vw;
-      font-weight: bold;
-      p {
-        padding: 5px 3vw;
-      }
-      :hover {
+    .mypage__bar__menu {
+      display: flex;
+      flex-direction: column;
+      margin-top: 50px;
+      button{
+        padding: 5px;
+        font-size: 25px;
+      }:hover{
         background-color: white;
       }
     }
-    .mypage__bar__menu {
-      margin: 5vh 0;
-    }
     .mypage__bar__logout {
-      padding-top: 50vh;
+      display: flex;
+      flex-direction: column;
+      margin-top: 50vh;
+      button{
+        padding: 5px;
+        font-size: 25px;
+      }:hover{
+        background-color: white;
+      }
     }
   }
   div {

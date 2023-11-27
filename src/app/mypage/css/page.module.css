@@ -12,27 +12,31 @@
 }
 .main .mypage__bar h2 {
   padding-top: 30px;
-  font-size: 3vw;
-}
-.main .mypage__bar .mypage__bar__menu,
-.main .mypage__bar .mypage__bar__logout {
-  text-align: left;
-  font-size: 1.4vw;
-  font-weight: bold;
-}
-.main .mypage__bar .mypage__bar__menu p,
-.main .mypage__bar .mypage__bar__logout p {
-  padding: 5px 3vw;
-}
-.main .mypage__bar .mypage__bar__menu :hover,
-.main .mypage__bar .mypage__bar__logout :hover {
-  background-color: white;
+  font-size: 40px;
 }
 .main .mypage__bar .mypage__bar__menu {
-  margin: 5vh 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+.main .mypage__bar .mypage__bar__menu button {
+  padding: 5px;
+  font-size: 25px;
+}
+.main .mypage__bar .mypage__bar__menu :hover {
+  background-color: white;
 }
 .main .mypage__bar .mypage__bar__logout {
-  padding-top: 50vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50vh;
+}
+.main .mypage__bar .mypage__bar__logout button {
+  padding: 5px;
+  font-size: 25px;
+}
+.main .mypage__bar .mypage__bar__logout :hover {
+  background-color: white;
 }
 .main div {
   width: 100%;
