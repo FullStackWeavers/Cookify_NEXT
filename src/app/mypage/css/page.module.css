@@ -4,53 +4,51 @@
   height: 100vh;
   min-height: 800px;
 }
-.main .mypage__bar {
+.main .mypageBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 18%;
+  min-width: 200px;
   height: 100vh;
   text-align: center;
   background-color: #cfcfcf;
 }
-.main .mypage__bar h2 {
+.main .mypageBar h2 {
   padding-top: 30px;
-  font-size: 40px;
+  font-size: 30px;
 }
-.main .mypage__bar .mypage__bar__menu {
+.main .mypageBar .barMenu1 {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   margin-top: 50px;
 }
-.main .mypage__bar .mypage__bar__menu button {
+.main .mypageBar .barMenu1 button {
   padding: 5px;
-  font-size: 25px;
+  font-size: 20px;
 }
-.main .mypage__bar .mypage__bar__menu :hover {
+.main .mypageBar .barMenu1 :hover {
   background-color: white;
 }
-.main .mypage__bar .mypage__bar__logout {
+.main .mypageBar .barMenu2 {
   display: flex;
   flex-direction: column;
-  margin-top: 50vh;
+  margin-bottom: 30px;
 }
-.main .mypage__bar .mypage__bar__logout button {
+.main .mypageBar .barMenu2 button {
   padding: 5px;
-  font-size: 25px;
+  font-size: 20px;
 }
-.main .mypage__bar .mypage__bar__logout :hover {
+.main .mypageBar .barMenu2 :hover {
   background-color: white;
 }
 .main div {
   width: 100%;
 }
-.main div .mypage__component {
-  padding: 0 30px;
-  height: 100vh;
-  background-color: white;
-}
-.main div .mypage__component h3 {
-  padding-top: 10vh;
-  padding-bottom: 2vh;
-}
 
-.mypage__bar__icon {
+.barIcon {
+  width: 20px;
+  height: 20px;
   margin-right: 3px;
 }/*# sourceMappingURL=page.module.css.map */

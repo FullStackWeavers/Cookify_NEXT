@@ -7,34 +7,42 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import MyChat from "../modal/chat/page"
+import MyAlarm from '../modal/alarm/page';
 
 export default function MyContent() {
   const [isHidden, setIsHidden] = useState(true)
   const currentPath = usePathname();
-  const [isChat, setIsChat] = useState(true)
+  const [isChat, setIsChat] = useState(false)
+  const [isAlarm, setIsAlarm] = useState(false)
 
-  const ChatModalClick= () => {
+  const ChatModalClick = () => {
     setIsChat(!isChat)
+    setIsAlarm(false)
+  }
+  const AlarmModalClick = () => {
+    setIsAlarm(!isAlarm)
+    setIsChat(false)
   }
 
   useEffect(() => {
-    if(currentPath == "/start"){
+    if (currentPath == "/start") {
       setIsHidden(false)
-    }else{
+    } else {
       setIsHidden(true)
     }
-  },[])
+  }, [])
 
-  return isHidden? (
+  return isHidden ? (
     <div className='container'>
-        <button onClick={ChatModalClick}>
-          <FontAwesomeIcon className='icon' icon={faComment} />
-        </button>
-      <Link href="/alarm">
-        <button>
-          <FontAwesomeIcon className='icon' icon={faBell} />
-        </button>
-      </Link>
+      <button onClick={ChatModalClick}>
+        <FontAwesomeIcon className='icon' icon={faComment} />
+      </button>
+      {isChat ? <MyChat ChatModalClick = {ChatModalClick}/> :null}
+      <button onClick={AlarmModalClick}>
+        <FontAwesomeIcon className='icon' icon={faBell} />
+      </button>
+      {isAlarm ? <MyAlarm  AlarmModalClick = {AlarmModalClick}/> : null}
       <Link href="/mycart">
         <button>
           <FontAwesomeIcon className='icon' icon={faCartShopping} />
@@ -46,5 +54,5 @@ export default function MyContent() {
         </div>
       </Link>
     </div>
-  ):null
+  ) : null
 }

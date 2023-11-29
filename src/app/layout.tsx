@@ -4,7 +4,6 @@ import './globals.css'
 import Header from './components/header/header'
 import Footer from './components/footer/footer'
 import MyContent from './components/mycontent/mycontent'
-import MySearch from './components/mysearch/mysearch'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +22,6 @@ export default function RootLayout({
       <body className={`example ${inter.className}`}>
         <MyContent/>
         <Header />
-        <MySearch/>
         {children}
         <Footer />
       </body>

@@ -16,7 +16,7 @@ export default function Footer() {
     }
   },[])
 
-  return (
+  return isHidden ?(
     <footer>
       <section className='left'>
         <span >Cookify Recipe Hub</span>
@@ -38,5 +38,5 @@ export default function Footer() {
         </div>
       </section>
     </footer>
-  )
+  ):null;
 }

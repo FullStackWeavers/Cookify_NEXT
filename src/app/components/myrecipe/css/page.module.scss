@@ -1,13 +1,13 @@
 .mypage__component {
-    padding: 0 30px;
     height: 100vh;
+    padding: 0 30px;
     background-color: white;
     h3 {
-      padding-top: 10vh;
-      padding-bottom: 2vh;
+      padding-top: 90px;
+      font-size: 30px;
     }
     .mypage__component__recipe {
-      height: 80vh;
+      height: calc(100vh - 130px);
       background-color: white;
       overflow-y: auto;
       div {
