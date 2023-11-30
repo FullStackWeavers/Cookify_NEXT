@@ -1,0 +1,90 @@
+.chatRoom {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(80vh - 30px);
+    .profile {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 80px;
+        background-color: greenyellow;
+        .chatList {
+            width: 20px;
+            padding: 0;
+            margin: 0;
+            border-radius: 0;
+            border: none;
+        }
+        .profileImage {
+            img {
+                width: 50px;
+                height: 50px;
+                border: 1px solid gray;
+                border-radius: 30px;
+            }
+        }
+        p {
+            flex-grow: 1;
+            margin: 0 10px;
+        }
+        button {
+            width: 80px;
+            padding: 5px 10px;
+            margin: 10px;
+            border-radius: 20px;
+            border: 1px solid black;
+        }
+    }
+    .commentList {
+        flex-grow: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        .comment {
+            display: flex;
+            .profileImage {
+                img {
+                    margin: 5px;
+                    border: 1px solid gray;
+                    border-radius: 30px;
+                }
+            }
+            .chatComment {
+                flex-grow: 1;
+                margin-bottom: 5px;
+                h4 {
+                    margin-top: 5px;
+                }
+                div {
+                    white-space: pre-line; /* 줄바꿈을 위한 속성 추가 */
+                    word-wrap: break-word;
+                    border-radius: 10px;
+                    background-color: #E1F2CD;
+                    margin-right: 5px;
+                    overflow: hidden;
+                }
+            }
+        }:last-child{
+            .chatComment {
+                flex-grow: 1;
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .commentInput {
+        display: flex;
+        justify-content: space-between;
+        max-height: 80px;
+        width: 100%;
+        input {
+            flex-grow: 1;
+        }
+        button {
+            width: 30px;
+            height: 30px;
+            background-color: #d2d2d2;
+        }
+    }
+}

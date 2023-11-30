@@ -1,0 +1,36 @@
+.myfollow{
+    margin-top: 90px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    .user{
+        display: flex;
+        align-items: center;
+        height: 80px;
+        .userimage{
+            width: 80px;
+            line-height: 10px;
+            text-align: center;
+            img{
+                border: 1px solid black;
+                border-radius: 30px;
+                background-color: white;
+            }
+        }
+        .userprofile{
+            padding: 0 10px;
+            h4{
+                margin-bottom: 10px;
+            }
+            p{
+                font-size: 15px;
+            }
+        }
+        button{
+            width: 100px;
+            padding: 10px 5px;
+            margin: 0 10px;
+            border-radius: 20px;
+            background-color: #d2de32;
+        }
+    }
+}

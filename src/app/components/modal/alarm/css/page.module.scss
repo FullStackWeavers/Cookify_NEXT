@@ -1,0 +1,44 @@
+.alarm {
+    position: absolute;
+    top: 90px;
+    width: 200px;
+    max-height: 80vh;
+    box-shadow: 2px 2px 2px gray;
+    border: 1px solid gray;
+    background-color: white;
+    .alarmbar{
+        width: 100%;
+        height: 30px;
+        text-align: right;
+        line-height: 30px;
+        background-color: #cfcfcf;
+        button{
+            width: 20px;
+            height: 20px;
+            padding-right: 5px;
+        }
+    }
+    .container {
+        display: flex;
+        align-items: center;
+        height: 80px;
+        margin: 5px 5px;
+        background-Color: #ffffff;
+        border-Radius: 18px;
+        border: 1px solid #f0f0f0;
+        box-Sizing: border-box;
+        box-Shadow: -2px 2px 0px rgba(0,0,0,0.25);
+        div {
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 30px;
+                background-color: gray;
+                margin: 10px;
+            }
+            h4 {
+                margin-bottom: 5px;
+            }
+        }
+    }
+}

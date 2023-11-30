@@ -5,7 +5,7 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
-    domains: ['recipe1.ezmember.co.kr'],
+    domains: ['search.pstatic.net'],
   },
 };
 
