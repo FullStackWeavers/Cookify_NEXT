@@ -1,36 +1,83 @@
-'use client'
-import styles from './css/page.module.css'
+import React, { useState, useEffect } from "react";
+import axios from "../../../axios_instance";
 
-export default function Login() {
+declare const checkBackendAuthentication: () => void;
+
+const Login = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkBackendAuthentication = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+
+        if (token) {
+          const response = await axios.get("/api/auth/user", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          setIsAuthenticated(response.status === 200);
+        }
+      } catch (error: any) {
+        console.error("Error checking authentication:", error.message);
+      }
+    };
+
+    checkBackendAuthentication();
+  }, []);
+
+  const handleLogin = () => {
+    // Google 로그인 창 열기
+    const googleLoginWindow = window.open(
+      "http://localhost:8080/oauth2/authorization/google"
+    );
+
+    // 로그인 창 닫힘 이벤트 감지
+    const checkGoogleLoginStatus = setInterval(() => {
+      if (googleLoginWindow && googleLoginWindow.closed) {
+        clearInterval(checkGoogleLoginStatus);
+        // 로그인 상태 체크
+        checkBackendAuthentication();
+      }
+    }, 1000);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+
+      if (token) {
+        await axios.post("/api/auth/logout", null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+
+      localStorage.removeItem("accessToken");
+      setIsAuthenticated(false);
+    } catch (error: any) {
+      console.error("Error logging out:", error.message);
+    }
+  };
 
   return (
     <div>
-      <div className={styles.login}>
-        <h1>Login</h1>
-        <p className={styles.title}>UserID</p>
-        <input type="text" />
-        <p className={styles.title}>Password</p>
-        <input type="text" />
-        <button>Login</button>
-        <p>비밀번호 분실</p>
-        <p>회원가입</p>
-      </div>
-      <p className={styles.title__line}>
-        <span></span>
-        <span className={styles.login__icon_title}>간편로그인</span>
-        <span></span>
-      </p>
-      <section className={styles.login__icon}>
-        <button className={styles.login__icon_linebutton}>
-          <img src='./img/google-btn.png' alt="" />
-        </button>
-        <button className={styles.login__icon_button}>
-          <img src="./img/naver-btn.png" alt="" />
-        </button>
-        <button className={styles.login__icon_button}>
-          <img src="./img/kakao-btn.png" alt="" />
-        </button>
-      </section>
+      {isAuthenticated ? (
+        <div>
+          <p>Welcome! You are logged in.</p>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      ) : (
+        <div>
+          <p>Please log in to continue.</p>
+          <button onClick={handleLogin}>Login with Google</button>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
+
+export default Login;
