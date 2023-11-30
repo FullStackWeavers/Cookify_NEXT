@@ -98,14 +98,18 @@
 .main .ingredientsSection .ingredientsSection_titleDiv .Icon {
   margin-right: 20px;
 }
-.main .ingredientsSection .ingredientsSection_contentDiv {
+.main .ingredientsSection .ingredientsSection_contentDivContainer {
+  width: 100%;
+  display: flex;
   border-radius: 30px;
   box-shadow: 2px 2px 2px 2px rgb(234, 234, 234);
+}
+.main .ingredientsSection .ingredientsSection_contentDivContainer .ingredientsSection_contentDiv {
   width: 100%;
   min-height: 400px;
   padding: 20px;
 }
-.main .ingredientsSection .ingredientsSection_contentDiv .ingredientDiv {
+.main .ingredientsSection .ingredientsSection_contentDivContainer .ingredientsSection_contentDiv .ingredientDiv {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -115,25 +119,21 @@
   width: 60%;
   margin-bottom: 10px;
 }
-.main .ingredientsSection .ingredientsSection_contentDiv .ingredientDiv .name {
+.main .ingredientsSection .ingredientsSection_contentDivContainer .ingredientsSection_contentDiv .ingredientDiv .name {
   font-size: 25px;
-}
-.main .ingredientsSection .ingredientsSection_contentDiv .ingredientDiv .buyBtn {
-  width: 120px;
-  height: 40px;
-  font-size: 18px;
-  border-radius: 30px;
 }
 .main .ingredientsSection .ingredientsSection_buttonDiv {
   width: 100%;
   display: flex;
   flex-direction: row-reverse;
+  margin-top: 20px;
 }
 .main .ingredientsSection .ingredientsSection_buttonDiv button {
   font-size: 18px;
   width: 180px;
   height: 40px;
   border-radius: 30px;
+  margin-right: 20px;
 }
 .main .makingNumberSection {
   width: 100%;
@@ -151,18 +151,17 @@
 }
 .main .makingNumberSection .makingNumberSection_NumberCardDiv {
   width: 100%;
-  min-height: 500px;
+  min-height: 50px;
   display: flex;
   flex-direction: column;
   padding: 20px 0;
 }
 .main .makingNumberSection .makingNumberSection_NumberCardDiv .card {
   width: 100%;
-  min-height: 280px;
   box-shadow: 2px 2px 2px 2px rgb(234, 234, 234);
   border-radius: 20px;
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
   padding: 20px;
   margin-bottom: 20px;
@@ -186,6 +185,7 @@
 .main .makingNumberSection .makingNumberSection_NumberCardDiv .card .explain {
   width: 80%;
   height: 100%;
+  padding-right: 80px;
 }
 .main .makingNumberSection .makingNumberSection_NumberCardDiv .card .photo {
   width: 600px;
@@ -221,7 +221,7 @@
   margin-bottom: 30px;
   padding: 20px;
   display: flex;
-  align-items: start;
+  align-items: flex-start;
 }
 .main .commentsSection .commentsSection_commentsDiv .commentsSection_commentDiv .commentsSection_profileImageDiv {
   height: 100%;

@@ -23,6 +23,11 @@
   padding: 5px;
   font-size: 25px;
 }
+.main .mypage__bar .mypage__bar__menu button .mypage__bar__icon {
+  margin-right: 3px;
+  width: 20px;
+  height: 20px;
+}
 .main .mypage__bar .mypage__bar__menu :hover {
   background-color: white;
 }
@@ -34,6 +39,10 @@
 .main .mypage__bar .mypage__bar__logout button {
   padding: 5px;
   font-size: 25px;
+}
+.main .mypage__bar .mypage__bar__logout button .mypage__bar__icon {
+  width: 20px;
+  height: 20px;
 }
 .main .mypage__bar .mypage__bar__logout :hover {
   background-color: white;
@@ -49,8 +58,4 @@
 .main div .mypage__component h3 {
   padding-top: 10vh;
   padding-bottom: 2vh;
-}
-
-.mypage__bar__icon {
-  margin-right: 3px;
 }/*# sourceMappingURL=page.module.css.map */

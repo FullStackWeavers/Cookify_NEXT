@@ -1,19 +1,74 @@
+'use client'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './css/detail.module.css'
 import { faArrowTurnDown, faEllipsis, faListOl, faMessage, faUtensils } from '@fortawesome/free-solid-svg-icons'
 import Image from 'next/image'
+import { SetStateAction, useEffect, useState } from 'react'
+import axios from 'axios'
 
 export default function Posting() {
+  const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT
+  const [isRecipe, setIsRecipe] = useState({ title: "", thumbnail: "", ingredients: "", ingredients2: "", steps: "" })
+  const [isIngredients, setIsIngredients] = useState<string[]>([]);
+  const [isIngredients2, setIsIngredients2] = useState<string[]>([]);
+  const [theIngredients2, setTheIsIngredients2] = useState(false);
+  const [isRecipeSteps, setIsRecipeSteps] = useState<string[]>([]);
+
+    const reIngredients = (data: { ingredients: any }) => {
+    let a = (data.ingredients).replace(/구매/g, ' ')
+    let b = a.split(",")
+    setIsIngredients(b)
+  }
+
+  const reIngredients2 = (data: { ingredients2: any }) => {
+    let a = (data.ingredients2).replace(/구매/g, ' ')
+    let b = a.split(",")
+    setIsIngredients2(b)
+    Ingredients2();
+  }
+
+  const Ingredients2 = () => {
+    setTheIsIngredients2(isIngredients2.length > 1 ? true : false)
+  }
+
+  const recipeSteps = async(data: { steps: any }) => {
+    const redata = (data.steps).split('.')
+    const reSteps: SetStateAction<string[]> = []
+    for (let i = 0; i < redata.length; i++) {
+      if(redata[i].charAt(0) == ","){
+        reSteps.push(redata[i].slice(1, redata[i].length -1))
+      }else{
+        reSteps.push(redata[i])
+      }
+    }
+    setIsRecipeSteps(reSteps);
+  }
+
+  useEffect(() => {
+    const docsData = async () => {
+      try {
+        const recipeDocs = await axios.get(`${BackendBaseURL}/recipe/recipe_docs/14`);
+        setIsRecipe(recipeDocs.data);
+        reIngredients(recipeDocs.data);
+        reIngredients2(recipeDocs.data);
+        recipeSteps(recipeDocs.data);
+      } catch (error) {
+        alert('조회 에러');
+      }
+    };
+    docsData();
+  }, []);
 
 
   return (
     <main className={styles.main}>
       <section className={styles.photoSection}>
         <div className={styles.photoSection_titleDiv}>
-          <span>[요리 이름]</span>
+          <span>[{isRecipe.title}]</span>
         </div>
         <div className={styles.photoSection_photoDiv}>
-          <Image src={'/detail.png'} alt='FootPhoto' width={1000} height={400} layout='responsive'></Image>
+          <Image src={isRecipe.thumbnail} alt='FootPhoto' width={1000} height={400} layout='responsive'></Image>
         </div>
         <div className={styles.photoSection_userDiv}>
           <div className={styles.userCard}>
@@ -37,42 +92,35 @@ export default function Posting() {
           <FontAwesomeIcon icon={faUtensils} className={styles.Icon}/>
           <span>재료</span>
         </div>
-        <div className={styles.ingredientsSection_contentDiv}>
-          <div className={styles.ingredientDiv}>
-            <span className={styles.name}>물(250ml 기준) 2컵</span>
-            <button className={styles.buyBtn}>구매</button>
+        <div className={styles.ingredientsSection_contentDivContainer}>
+          <div className={styles.ingredientsSection_contentDiv}>
+              {
+                isIngredients.map((item, index) => {
+                  return (
+                    <div key={index} className={styles.ingredientDiv}>
+                      <span className={styles.name}>{item}</span>
+                      
+                    </div>
+                    
+                  )
+                })
+              }
           </div>
-          <div className={styles.ingredientDiv}>
-            <span className={styles.name}>돼지고기 찌개용 또는 목살 250g</span>
-            <button className={styles.buyBtn}>구매</button>
-          </div>
-          <div className={styles.ingredientDiv}>
-            <span className={styles.name}>신김치 200g</span>
-            <button className={styles.buyBtn}>구매</button>
-          </div>
-          <div className={styles.ingredientDiv}>
-            <span className={styles.name}>김칫국물 5큰술</span>
-            <button className={styles.buyBtn}>구매</button>
-          </div>
-          <div className={styles.ingredientDiv}>
-            <span className={styles.name}>참기름 1작은술</span>
-            <button className={styles.buyBtn}>구매</button>
-          </div>
-          <div className={styles.ingredientDiv}>
-            <span className={styles.name}>양파 1/2개</span>
-            <button className={styles.buyBtn}>구매</button>
-          </div>
-          <div className={styles.ingredientDiv}>
-            <span className={styles.name}>청고추 2개</span>
-            <button className={styles.buyBtn}>구매</button>
-          </div>
-          <div className={styles.ingredientDiv}>
-            <span className={styles.name}>대파 약간</span>
-            <button className={styles.buyBtn}>구매</button>
+          <div className={styles.ingredientsSection_contentDiv}>
+            { theIngredients2 ?
+                isIngredients2.map((item, index) => {
+                  return (
+                    <div key={index} className={styles.ingredientDiv}>
+                      <span className={styles.name}>{item}</span>
+                    </div>
+                    
+                  )
+                })
+              : null}
           </div>
         </div>
         <div className={styles.ingredientsSection_buttonDiv}>
-          <button>재료 전부 담기</button>
+          <button>재료 전부 구매</button>
         </div>
       </section>
       <section className={styles.makingNumberSection}>
@@ -81,72 +129,22 @@ export default function Posting() {
           <span>조리 순서</span>
         </div>
         <div className={styles.makingNumberSection_NumberCardDiv}>
-          <div className={styles.card}>
+          {isRecipeSteps.map((item, index) => {
+            return (
+              item.length > 1 ?
+          <div key={index} className={styles.card}>
             <div className={styles.number}>
               <div className={styles.greenBox}>
-                <span>1</span>
+                <span>{index + 1}</span>
               </div>
             </div>
             <div className={styles.explain}>
-              <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Optio cum totam aliquam debitis maiores perferendis eaque, aspernatur, dolor quo hic, consequuntur doloremque nam animi autem. Quidem sint ab modi quo?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Porro magni nam reiciendis, laudantium, reprehenderit hic sapiente voluptatibus corporis distinctio assumenda molestias vel eos voluptatum, ea dicta? Commodi quisquam iure natus voluptatem error rem a aut accusamus earum vitae.</span>
-            </div>
-            <div className={styles.photo}>
-              <Image src={'/detail.png'} alt='numberPhoto' width={600} height={300}></Image>
+              <span>{item}</span>
             </div>
           </div>
-          <div className={styles.card}>
-            <div className={styles.number}>
-              <div className={styles.greenBox}>
-                <span>2</span>
-              </div>
-            </div>
-            <div className={styles.explain}>
-              <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Optio cum totam aliquam debitis maiores perferendis eaque, aspernatur, dolor quo hic, consequuntur doloremque nam animi autem. Quidem sint ab modi quo?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Porro magni nam reiciendis, laudantium, reprehenderit hic sapiente voluptatibus corporis distinctio assumenda molestias vel eos voluptatum, ea dicta? Commodi quisquam iure natus voluptatem error rem a aut accusamus earum vitae.</span>
-            </div>
-            <div className={styles.photo}>
-              <Image src={'/detail.png'} alt='numberPhoto' width={600} height={300}></Image>
-            </div>
-          </div>
-          <div className={styles.card}>
-            <div className={styles.number}>
-              <div className={styles.greenBox}>
-                <span>3</span>
-              </div>
-            </div>
-            <div className={styles.explain}>
-              <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Optio cum totam aliquam debitis maiores perferendis eaque, aspernatur, dolor quo hic, consequuntur doloremque nam animi autem. Quidem sint ab modi quo?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Magni laborum, mollitia vero sit asperiores consequuntur ab commodi deleniti numquam quaerat harum voluptatem culpa aut, fuga sapiente accusamus fugit veritatis. Autem distinctio quia corrupti officia non molestias fugiat laudantium?
-              Porro magni nam reiciendis, laudantium, reprehenderit hic sapiente voluptatibus corporis distinctio assumenda molestias vel eos voluptatum, ea dicta? Commodi quisquam iure natus voluptatem error rem a aut accusamus earum vitae.</span>
-            </div>
-            <div className={styles.photo}>
-              <Image src={'/detail.png'} alt='numberPhoto' width={600} height={300}></Image>
-            </div>
-          </div>
+                :null
+            )
+          })}
         </div>
       </section>
       <section className={styles.commentsSection}>

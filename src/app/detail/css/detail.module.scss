@@ -96,29 +96,27 @@
         margin-right: 20px;
       }
     }
-    .ingredientsSection_contentDiv {
+    .ingredientsSection_contentDivContainer {
+      width: 100%;
+      display: flex;
       border-radius: 30px;
       box-shadow: 2px 2px 2px 2px rgb(234, 234, 234);
-      width: 100%;
-      min-height: 400px;
-      padding: 20px;
-      .ingredientDiv {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 0 0 20px;
-        border-radius: 20px;
-        box-shadow: 1px 1px 1px 1px rgb(234, 234, 234);
-        width: 60%;
-        margin-bottom: 10px;
-        .name {
-          font-size: 25px;
-        }
-        .buyBtn {
-          width: 120px;
-          height: 40px;
-          font-size: 18px;
-          border-radius: 30px;
+      .ingredientsSection_contentDiv {
+        width: 100%;
+        min-height: 400px;
+        padding: 20px;
+        .ingredientDiv {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 0 0 20px;
+          border-radius: 20px;
+          box-shadow: 1px 1px 1px 1px rgb(234, 234, 234);
+          width: 60%;
+          margin-bottom: 10px;
+          .name {
+            font-size: 25px;
+          }
         }
       }
     }
@@ -126,11 +124,13 @@
       width: 100%;
       display: flex;
       flex-direction: row-reverse;
+      margin-top: 20px;
       button {
         font-size: 18px;
         width: 180px;
         height: 40px;
         border-radius: 30px;
+        margin-right: 20px;
       }
     }
   }
@@ -149,17 +149,16 @@
     }
     .makingNumberSection_NumberCardDiv {
       width: 100%;
-      min-height: 500px;
+      min-height: 50px;
       display: flex;
       flex-direction: column;
       padding: 20px 0;
       .card {
         width: 100%;
-        min-height: 280px;
         box-shadow: 2px 2px 2px 2px rgb(234, 234, 234);
         border-radius: 20px;
         display: flex;
-        align-items: start;
+        align-items: center;
         justify-content: space-between;
         padding: 20px;
         margin-bottom: 20px;
@@ -182,6 +181,7 @@
         .explain {
           width: 80%;
           height: 100%;
+          padding-right: 80px;
         }
         .photo {
           width: 600px;
@@ -218,7 +218,7 @@
         margin-bottom: 30px;
         padding: 20px;
         display: flex;
-        align-items: start;
+        align-items: flex-start;
         .commentsSection_profileImageDiv {
           height: 100%;
         }
