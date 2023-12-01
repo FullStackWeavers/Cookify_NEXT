@@ -1,47 +1,35 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../../axios_instance";
 
-declare const checkBackendAuthentication: () => void;
+const checkBackendAuthentication = async (
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  try {
+    const token = localStorage.getItem("accessToken");
+
+    if (token) {
+      const response = await axios.get("/api/auth/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setIsAuthenticated(response.status === 200);
+    }
+  } catch (error: any) {
+    console.error("Error checking authentication:", error.message);
+  }
+};
 
 const Login = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const checkBackendAuthentication = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-
-        if (token) {
-          const response = await axios.get("/api/auth/user", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          setIsAuthenticated(response.status === 200);
-        }
-      } catch (error: any) {
-        console.error("Error checking authentication:", error.message);
-      }
-    };
-
-    checkBackendAuthentication();
+    checkBackendAuthentication(setIsAuthenticated);
   }, []);
 
   const handleLogin = () => {
-    // Google 로그인 창 열기
-    const googleLoginWindow = window.open(
-      "http://localhost:8080/oauth2/authorization/google"
-    );
-
-    // 로그인 창 닫힘 이벤트 감지
-    const checkGoogleLoginStatus = setInterval(() => {
-      if (googleLoginWindow && googleLoginWindow.closed) {
-        clearInterval(checkGoogleLoginStatus);
-        // 로그인 상태 체크
-        checkBackendAuthentication();
-      }
-    }, 1000);
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
   };
 
   const handleLogout = async () => {
