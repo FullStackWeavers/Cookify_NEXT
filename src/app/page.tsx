@@ -3,9 +3,10 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp, faHeart, faSquareCheck } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react'
+import { faChevronDown, faChevronUp, faHeart } from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import axios from 'axios'
 
 export default function Home() {
 
@@ -13,6 +14,7 @@ export default function Home() {
   const [isIngredientsOpen, setIsIngredientsOpen] = useState(false)
   const [isDifficultyOpen, setIsDifficultyOpen] = useState(false)
   const [isRecipeSourceOpen, setIsRecipeSourceOpen] = useState(false)
+
 
   const clickRecipeTypeBtn = () => {
     if (isRecipeTypeOpen === false) {
@@ -46,7 +48,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <section className={styles.popular_recipes_container}>
-        <Image className={styles.image} src='/popular_recipes_image.png' alt="Profile Image" width={2000} height={600} layout='responsive'/>
+        <Image className={styles.image} src='/popular_recipes_image.png' alt="Profile Image" width={2000} height={600} layout='responsive' />
       </section>
       <section className={styles.middle_container}>
         <div className={styles.filter_recipes}>
@@ -176,7 +178,7 @@ export default function Home() {
           </div>
           <div className={styles.downContainer}>
             <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
               <span className={styles.docs_card_name}>음식 이름</span>
               <div className={styles.likeBtnBox}>
                 <button className={styles.likeBtn}>
@@ -186,7 +188,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
               <span className={styles.docs_card_name}>음식 이름</span>
               <div className={styles.likeBtnBox}>
                 <button className={styles.likeBtn}>
@@ -196,7 +198,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
               <span className={styles.docs_card_name}>음식 이름</span>
               <div className={styles.likeBtnBox}>
                 <button className={styles.likeBtn}>
@@ -206,7 +208,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
               <span className={styles.docs_card_name}>음식 이름</span>
               <div className={styles.likeBtnBox}>
                 <button className={styles.likeBtn}>
@@ -216,7 +218,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
               <span className={styles.docs_card_name}>음식 이름</span>
               <div className={styles.likeBtnBox}>
                 <button className={styles.likeBtn}>
@@ -226,7 +228,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
               <span className={styles.docs_card_name}>음식 이름</span>
               <div className={styles.likeBtnBox}>
                 <button className={styles.likeBtn}>
@@ -236,7 +238,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
               <span className={styles.docs_card_name}>음식 이름</span>
               <div className={styles.likeBtnBox}>
                 <button className={styles.likeBtn}>
@@ -246,7 +248,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
               <span className={styles.docs_card_name}>음식 이름</span>
               <div className={styles.likeBtnBox}>
                 <button className={styles.likeBtn}>
@@ -256,7 +258,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150}/>
+              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
               <span className={styles.docs_card_name}>음식 이름</span>
               <div className={styles.likeBtnBox}>
                 <button className={styles.likeBtn}>

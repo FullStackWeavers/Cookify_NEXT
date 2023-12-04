@@ -1,4 +1,5 @@
 .main {
+  padding-bottom: 10px;
   background-color: white;
 }
 .main button {
@@ -14,8 +15,34 @@
   margin: 15px 0;
 }
 .posting__title p {
-  padding: 2vh 0;
-  font-size: 2vw;
+  width: 500px;
+  padding: 20px 0;
+  font-size: 20px;
+  line-height: 30px;
+}
+.posting__title p input {
+  width: 450px;
+  height: 30px;
+}
+.posting__title p button {
+  width: 40px;
+  height: 30px;
+  border-radius: 10px;
+  margin: 3px;
+}
+.posting__title .iconBox {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  border-radius: 10px;
+  width: 100%;
+  height: 70vh;
+  background-color: #f0f0f0;
+  border: 1px solid black;
+}
+.posting__title .iconBox .icon {
+  width: 300px;
+  height: 300px;
 }
 .posting__title img {
   border-radius: 10px;
@@ -39,11 +66,11 @@
   border-radius: 17.5px;
 }
 .posting__title div span p {
-  margin: 0 1vw;
-  font-size: 1.3vw;
+  margin: 0 10px;
+  font-size: 20px;
 }
 .posting__title div .posting__image {
-  width: 150px;
+  width: 140px;
   padding: 5px;
   display: flex;
   align-items: center;
@@ -54,24 +81,26 @@
 }
 .posting__title div .posting__image .icon {
   width: 10px;
-  padding-right: 10px;
 }
 .posting__title div .posting__image .explain {
   font-size: 15px;
 }
 
 .posting__ingredient {
-  min-height: 600px;
   background-color: white;
   border: 1px solid gray;
   border-radius: 10px;
   box-shadow: 2px 2px 2px gray;
   margin: 15px 0;
-  padding: 2vh 2vw;
+  padding: 20px 20px;
   text-align: right;
 }
 .posting__ingredient h1 {
   text-align: left;
+}
+.posting__ingredient h1 .icon {
+  width: 30px;
+  height: 30px;
 }
 .posting__ingredient h1 span {
   padding: 0 10px;
@@ -87,6 +116,8 @@
   border: 1px solid #e4e6ea;
   box-shadow: 2px 2px 2px gray;
   margin: 15px 0;
+  max-height: 500px;
+  overflow-y: auto;
 }
 .posting__ingredient .posting__ingredient__list .posting__ingredient__item {
   width: 50%;
@@ -102,7 +133,7 @@
   text-align: left;
 }
 .posting__ingredient .posting__ingredient__list .posting__ingredient__item div button {
-  width: 80px;
+  width: 100px;
   padding: 5px 10px;
   margin-right: 5px;
   border-radius: 10px;
@@ -132,7 +163,6 @@
 }
 
 .posting__ricipe {
-  min-height: 600px;
   background-color: white;
   padding: 1vh 2vw;
   border: 1px solid gray;
@@ -150,6 +180,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.posting__ricipe .posting__ricipe__title h1 .icon {
+  width: 30px;
+  height: 30px;
 }
 .posting__ricipe .posting__ricipe__title h1 span {
   padding: 0 10px;

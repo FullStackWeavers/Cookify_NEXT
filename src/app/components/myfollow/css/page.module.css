@@ -1,12 +1,11 @@
 .myfollow {
   margin-top: 90px;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
 }
 .myfollow .user {
   display: flex;
   align-items: center;
   height: 80px;
+  border-top: 1px solid black;
 }
 .myfollow .user .userimage {
   width: 80px;
@@ -33,4 +32,7 @@
   margin: 0 10px;
   border-radius: 20px;
   background-color: #d2de32;
+}
+.myfollow :last-child {
+  border-bottom: 1px solid black;
 }/*# sourceMappingURL=page.module.css.map */

@@ -2,9 +2,11 @@ import Image from 'next/image'
 import styles from './css/myinfo.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCamera } from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react'
 
-export default function MyInfo() {
-
+export default function MyInfo(userData: any) {
+  const [isData, setIsData] = useState({})
+  
   return (
     <div className={styles.container}>
       <div className={styles.innerBox}>
@@ -17,7 +19,7 @@ export default function MyInfo() {
           <div className={styles.changePhoto}>
             <button className={styles.button}>
               <FontAwesomeIcon icon={faCamera} className={styles.icon} />
-              <span>이미지 변경</span> 
+              <span>이미지 수정</span> 
             </button>
           </div>
         </div>

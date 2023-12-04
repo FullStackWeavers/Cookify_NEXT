@@ -15,7 +15,7 @@ export default function Posting() {
   const [theIngredients2, setTheIsIngredients2] = useState(false);
   const [isRecipeSteps, setIsRecipeSteps] = useState<string[]>([]);
 
-    const reIngredients = (data: { ingredients: any }) => {
+  const reIngredients = (data: { ingredients: any }) => {
     let a = (data.ingredients).replace(/구매/g, ' ')
     let b = a.split(",")
     setIsIngredients(b)
@@ -32,13 +32,13 @@ export default function Posting() {
     setTheIsIngredients2(isIngredients2.length > 1 ? true : false)
   }
 
-  const recipeSteps = async(data: { steps: any }) => {
+  const recipeSteps = async (data: { steps: any }) => {
     const redata = (data.steps).split('.')
     const reSteps: SetStateAction<string[]> = []
     for (let i = 0; i < redata.length; i++) {
-      if(redata[i].charAt(0) == ","){
-        reSteps.push(redata[i].slice(1, redata[i].length -1))
-      }else{
+      if (redata[i].charAt(0) == ",") {
+        reSteps.push(redata[i].slice(1, redata[i].length - 1))
+      } else {
         reSteps.push(redata[i])
       }
     }
@@ -48,11 +48,17 @@ export default function Posting() {
   useEffect(() => {
     const docsData = async () => {
       try {
-        const recipeDocs = await axios.get(`${BackendBaseURL}/recipe/recipe_docs/14`);
+        const recipeDocs = await axios.get(`${BackendBaseURL}/recipe/recipe_docs/14`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        });
         setIsRecipe(recipeDocs.data);
         reIngredients(recipeDocs.data);
         reIngredients2(recipeDocs.data);
         recipeSteps(recipeDocs.data);
+        console.log(recipeDocs);
       } catch (error) {
         alert('조회 에러');
       }
@@ -89,33 +95,33 @@ export default function Posting() {
       </section>
       <section className={styles.ingredientsSection}>
         <div className={styles.ingredientsSection_titleDiv}>
-          <FontAwesomeIcon icon={faUtensils} className={styles.Icon}/>
+          <FontAwesomeIcon icon={faUtensils} className={styles.Icon} />
           <span>재료</span>
         </div>
         <div className={styles.ingredientsSection_contentDivContainer}>
           <div className={styles.ingredientsSection_contentDiv}>
-              {
-                isIngredients.map((item, index) => {
-                  return (
-                    <div key={index} className={styles.ingredientDiv}>
-                      <span className={styles.name}>{item}</span>
-                      
-                    </div>
-                    
-                  )
-                })
-              }
+            {
+              isIngredients.map((item, index) => {
+                return (
+                  <div key={index} className={styles.ingredientDiv}>
+                    <span className={styles.name}>{item}</span>
+
+                  </div>
+
+                )
+              })
+            }
           </div>
           <div className={styles.ingredientsSection_contentDiv}>
-            { theIngredients2 ?
-                isIngredients2.map((item, index) => {
-                  return (
-                    <div key={index} className={styles.ingredientDiv}>
-                      <span className={styles.name}>{item}</span>
-                    </div>
-                    
-                  )
-                })
+            {theIngredients2 ?
+              isIngredients2.map((item, index) => {
+                return (
+                  <div key={index} className={styles.ingredientDiv}>
+                    <span className={styles.name}>{item}</span>
+                  </div>
+
+                )
+              })
               : null}
           </div>
         </div>
@@ -132,24 +138,24 @@ export default function Posting() {
           {isRecipeSteps.map((item, index) => {
             return (
               item.length > 1 ?
-          <div key={index} className={styles.card}>
-            <div className={styles.number}>
-              <div className={styles.greenBox}>
-                <span>{index + 1}</span>
-              </div>
-            </div>
-            <div className={styles.explain}>
-              <span>{item}</span>
-            </div>
-          </div>
-                :null
+                <div key={index} className={styles.card}>
+                  <div className={styles.number}>
+                    <div className={styles.greenBox}>
+                      <span>{index + 1}</span>
+                    </div>
+                  </div>
+                  <div className={styles.explain}>
+                    <span>{item}</span>
+                  </div>
+                </div>
+                : null
             )
           })}
         </div>
       </section>
       <section className={styles.commentsSection}>
         <div className={styles.commentsSection_titleDiv}>
-          <FontAwesomeIcon icon={faMessage} className={styles.icon}/>
+          <FontAwesomeIcon icon={faMessage} className={styles.icon} />
           <span>댓글</span>
         </div>
         <div className={styles.commentsSection_commentsDiv}>
@@ -174,7 +180,7 @@ export default function Posting() {
               <div className={styles.commentsSection_middleDiv}>
                 <span>User Name</span>
                 <div className={styles.commentsSection_middleDiv_content}>
-                    <span>Text</span>
+                  <span>Text</span>
                 </div>
               </div>
               <button className={styles.commentsSction_lastDIv}>
@@ -188,7 +194,7 @@ export default function Posting() {
             <Image src={'/profile.png'} alt='MyProfileImage' width={50} height={50}></Image>
           </div>
           <div className={styles.middleDiv}>
-            <input type="text" placeholder='여기에 댓글을 입력하세요.'/>
+            <input type="text" placeholder='여기에 댓글을 입력하세요.' />
           </div>
           <div className={styles.lastDiv}>
             <button>댓글 달기</button>
