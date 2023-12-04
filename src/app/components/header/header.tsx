@@ -1,50 +1,48 @@
-'use client'
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import './css/header.css'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./css/header.css";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
-
-  const [isFindShow, setIsFindShow] = useState(true)
-  const [isHidden, setIsHidden] = useState(true)
+  const [isFindShow, setIsFindShow] = useState(true);
+  const [isHidden, setIsHidden] = useState(true);
   const currentPath = usePathname();
 
   const ClickBtn = () => {
     if (isFindShow === true) {
-      setIsFindShow(false)
+      setIsFindShow(false);
     } else {
-      setIsFindShow(true)
+      setIsFindShow(true);
     }
-  }
+  };
 
   useEffect(() => {
-    setIsFindShow(true)
-    if(currentPath == "/start" || currentPath == "/mypage"){
-      setIsHidden(false)
-    }else{
-      setIsHidden(true)
+    setIsFindShow(true);
+    if (currentPath == "/start" || currentPath == "/mypage") {
+      setIsHidden(false);
+    } else {
+      setIsHidden(true);
     }
-  },[])
+  }, []);
 
-  return isHidden? (
-    <header >
-      <section className='left'>
+  return isHidden ? (
+    <header>
+      <section className="left">
         <Link href="/">
           <p>Cookify</p>
         </Link>
       </section>
-      <section className='right'>
-        {isFindShow && <input type="text" placeholder='Search recipes' />}
-        <button
-          onClick={ClickBtn}
-        >
-          <FontAwesomeIcon className='icon' icon={faMagnifyingGlass} />
+      <section className="right">
+        {isFindShow && <input type="text" placeholder="Search recipes" />}
+        <button onClick={ClickBtn}>
+          <FontAwesomeIcon className="icon" icon={faMagnifyingGlass} />
         </button>
       </section>
     </header>
-  ):null;
+  ) : null;
 }
