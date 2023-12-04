@@ -2,7 +2,7 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './css/mycontent.css'
-import { faBell, faCartShopping, faComment } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faComment } from '@fortawesome/free-solid-svg-icons'
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -43,11 +43,6 @@ export default function MyContent() {
         <FontAwesomeIcon className='icon' icon={faBell} />
       </button>
       {isAlarm ? <MyAlarm  AlarmModalClick = {AlarmModalClick}/> : null}
-      <Link href="/mycart">
-        <button>
-          <FontAwesomeIcon className='icon' icon={faCartShopping} />
-        </button>
-      </Link>
       <Link href="/mypage">
         <div className='profile'>
           <Image className='icon' src="/profile.png" alt="Profile Image" width={50} height={50} />
