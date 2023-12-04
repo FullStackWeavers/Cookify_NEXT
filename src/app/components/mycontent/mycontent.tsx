@@ -1,5 +1,6 @@
 "use client";
 
+<<<<<<< HEAD
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./css/mycontent.css";
 import { faBell, faComment } from "@fortawesome/free-solid-svg-icons";
@@ -10,6 +11,17 @@ import { usePathname } from "next/navigation";
 import MyChat from "../modal/chat/page";
 import MyAlarm from "../modal/alarm/page";
 import axios from "axios";
+=======
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import './css/mycontent.css'
+import { faBell, faComment } from '@fortawesome/free-solid-svg-icons'
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import MyChat from "../modal/chat/page"
+import MyAlarm from '../modal/alarm/page';
+>>>>>>> d01a9c417ea6608f82e91712e0cc43675a502be3
 
 export default function MyContent() {
   const [isHidden, setIsHidden] = useState(true);
@@ -63,6 +75,7 @@ export default function MyContent() {
       <button onClick={AlarmModalClick}>
         <FontAwesomeIcon className="icon" icon={faBell} />
       </button>
+<<<<<<< HEAD
       {isAlarm ? <MyAlarm AlarmModalClick={AlarmModalClick} /> : null}
       {isUser !== null ? (
         <div>
@@ -77,6 +90,12 @@ export default function MyContent() {
               />
             </div>
           </Link>
+=======
+      {isAlarm ? <MyAlarm  AlarmModalClick = {AlarmModalClick}/> : null}
+      <Link href="/mypage">
+        <div className='profile'>
+          <Image className='icon' src="/profile.png" alt="Profile Image" width={50} height={50} />
+>>>>>>> d01a9c417ea6608f82e91712e0cc43675a502be3
         </div>
       ) : (
         <Link href="/start">
