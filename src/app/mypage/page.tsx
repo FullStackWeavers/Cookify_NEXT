@@ -23,7 +23,7 @@ export default function MyPage() {
     setIsMyPage(name);
   };
 
-  const Logout = () => {
+  const handleLogout = () => {
     axios
       .post("http://localhost:8080/api/auth/logout", {
         headers: {
@@ -33,8 +33,7 @@ export default function MyPage() {
       })
       .then((response) => {
         console.log("Logout successful");
-        // Redirect to the home page after logout
-        window.location.href = "/";
+        sessionStorage.setItem("isLogin", "false");
       })
       .catch((error) => {
         console.error("API 호출 중 오류 발생:", error);
@@ -89,15 +88,6 @@ export default function MyPage() {
           >
             <FontAwesomeIcon className={styles.barIcon} icon={faHeart} />
             좋아요
-          </button>
-        </div>
-        <div className={styles.barMenu2}>
-          <button onClick={Logout}>
-            <FontAwesomeIcon
-              className={styles.barIcon}
-              icon={faRightFromBracket}
-            />
-            로그아웃
           </button>
         </div>
       </div>

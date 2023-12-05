@@ -48,19 +48,16 @@ export default function MyInfo() {
         </div>
         <div className={styles.right}>
           <div className={styles.box}>
-            <p>이름</p>
-            <div className={styles.inputButtonBox}>
-              <div className={styles.inputBox}>
-                <input type="text" placeholder={isUser.name} />
-              </div>
-              <button className={styles.buttonBox}>
-                <span>수정</span>
-              </button>
-            </div>
             <p>이메일</p>
             <div className={styles.inputButtonBox}>
               <div className={styles.inputBox}>
                 <input type="text" placeholder={isUser.email} />
+              </div>
+            </div>
+            <p>이름</p>
+            <div className={styles.inputButtonBox}>
+              <div className={styles.inputBox}>
+                <input type="text" placeholder={isUser.name} />
               </div>
               <button className={styles.buttonBox}>
                 <span>수정</span>
