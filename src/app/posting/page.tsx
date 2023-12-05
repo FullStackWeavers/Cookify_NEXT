@@ -34,16 +34,20 @@ export default function Posting() {
     setIsTitleValue(e.target.value)
   }
 
-  const recipeImage = () => {
+  const handleImage = async (e: any) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader();
 
-  }
+      reader.onloadend = () => {
+        setIsImage(reader.result as string);
+      };
 
-  const imageUpload = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click(); 
-      console.log(fileInputRef.current?.value);
+      reader.readAsDataURL(file);
     }
-  };
+  }
+  console.log(isImage);
+  
 
   const recipeIngredients1 = () => {
     const data = [...isIngredients1, isIngredientName1 + " " + isIngredientWeight1]
@@ -102,7 +106,7 @@ export default function Posting() {
   }
 
   const recipeCreate = () => {
-    axios.post('http://localhost:8080/recipe', { title: isTitle, ingredients: isIngredients1, ingredients2: isIngredients2, steps: isSteps, thumbnail: "text" }, {
+    axios.post('http://localhost:8080/recipe', { title: isTitle, ingredients: isIngredients1, ingredients2: isIngredients2, steps: isSteps, thumbnail: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzAzMTdfOTcg%2FMDAxNjc5MDUzNDIwMDAy.QFhnImkgKNqV0ra02lZK4fC8eegTB3H3dSsJNLGeLzog.Rgooqg8IfOA6TLvOExpuPZaf9C4z-HWfIFHJ-Lh8OnUg.PNG.xowldodls1%2Fimage.png&type=a340" }, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -132,6 +136,22 @@ export default function Posting() {
       });
   }, [])
 
+  useEffect(() => {
+    axios.get("http://localhost:8080/recipe", {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    })
+      .then(function (response) {
+        setIsUser(response.data);
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log("에러 응답:", error.response);
+      });
+  }, [])
+
   return (
     <main className={styles.main}>
       <div className={styles.posting__title}>
@@ -139,13 +159,20 @@ export default function Posting() {
           {!isOnTitle ? <input type="text" value={isTitleValue} onChange={recipeTitleInput} /> : isTitle}
           <button onClick={recipeTitle}>{!isOnTitle ? "저장" : "수정"}</button>
         </p>
-        {isImage.length == 0 ? <div className={styles.iconBox}><FontAwesomeIcon className={styles.icon} icon={faFileArrowUp} /></div> : <Image src="" alt="" />}
+        {!isImage ?
+          <div className={styles.iconBox}>
+            <FontAwesomeIcon className={styles.icon} icon={faFileArrowUp} />
+          </div>
+          :
+          <Image src={isImage} alt="" width={300} height={200} />
+        }
+
         <div>
           <span>
             <Image src={isUser.picture} alt="" width={50} height={50} />
             <p>{isUser.name}</p>
           </span>
-          <button className={styles.posting__image} onClick={imageUpload}>
+          <button className={styles.posting__image} onClick={() => fileInputRef.current?.click()}>
             <span className='icon'>
               <FontAwesomeIcon icon={faFileArrowUp} />
             </span>
@@ -157,7 +184,7 @@ export default function Posting() {
           <input
             type="file"
             accept="image/*"
-            onChange={imageUpload}
+            onChange={handleImage}
             ref={fileInputRef}
             style={{ display: 'none' }}
           />
@@ -183,7 +210,7 @@ export default function Posting() {
             {isIngredients1.map((ingredient, index) => {
               return ingredient.length > 0 ? (
                 // eslint-disable-next-line react/jsx-key
-                <div>
+                <div key={index}>
                   <li>
                     <ul>
                       <p>{ingredient}</p>
@@ -208,7 +235,7 @@ export default function Posting() {
             {isIngredients2.map((ingredient, index) => {
               return ingredient.length > 0 ? (
                 // eslint-disable-next-line react/jsx-key
-                <div>
+                <div key={index}>
                   <li>
                     <ul>
                       <p>{ingredient}</p>
@@ -240,7 +267,7 @@ export default function Posting() {
         {isSteps.map((step, index) => {
           return (
             // eslint-disable-next-line react/jsx-key
-            <div className={styles.posting__ricipe__list}>
+            <div className={styles.posting__ricipe__list} key={index}>
               <li>
                 <ul>
                   <div>

@@ -10,11 +10,28 @@ import axios from 'axios'
 
 export default function Home() {
 
+  const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT
   const [isRecipeTypeOpen, setIsRecipeTypeOpen] = useState(false)
   const [isIngredientsOpen, setIsIngredientsOpen] = useState(false)
   const [isDifficultyOpen, setIsDifficultyOpen] = useState(false)
   const [isRecipeSourceOpen, setIsRecipeSourceOpen] = useState(false)
+  const [isRecipe, setIsRecipe] = useState<string[]>([])
 
+  const likeBtn = () => {
+    axios.post(`${BackendBaseURL}/heart/4`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    })
+      .then((response) => {
+        console.log(response.data);
+        
+      })
+      .catch((error) => {
+        console.error("API 호출 중 오류 발생:", error);
+      });
+  }
 
   const clickRecipeTypeBtn = () => {
     if (isRecipeTypeOpen === false) {
@@ -44,6 +61,23 @@ export default function Home() {
       setIsRecipeSourceOpen(false)
     }
   }
+
+  useEffect(() => {
+    axios.get(`${BackendBaseURL}/recipe/brief`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setIsRecipe(response.data);
+        console.log(response.data);
+        
+      })
+      .catch((error) => {
+        console.error("API 호출 중 오류 발생:", error);
+      });
+  }, [])
 
   return (
     <main className={styles.main}>
@@ -177,96 +211,22 @@ export default function Home() {
             </Link>
           </div>
           <div className={styles.downContainer}>
-            <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
-              <span className={styles.docs_card_name}>음식 이름</span>
-              <div className={styles.likeBtnBox}>
-                <button className={styles.likeBtn}>
-                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-                  <span>15</span>
-                </button>
-              </div>
-            </div>
-            <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
-              <span className={styles.docs_card_name}>음식 이름</span>
-              <div className={styles.likeBtnBox}>
-                <button className={styles.likeBtn}>
-                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-                  <span>15</span>
-                </button>
-              </div>
-            </div>
-            <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
-              <span className={styles.docs_card_name}>음식 이름</span>
-              <div className={styles.likeBtnBox}>
-                <button className={styles.likeBtn}>
-                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-                  <span>15</span>
-                </button>
-              </div>
-            </div>
-            <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
-              <span className={styles.docs_card_name}>음식 이름</span>
-              <div className={styles.likeBtnBox}>
-                <button className={styles.likeBtn}>
-                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-                  <span>15</span>
-                </button>
-              </div>
-            </div>
-            <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
-              <span className={styles.docs_card_name}>음식 이름</span>
-              <div className={styles.likeBtnBox}>
-                <button className={styles.likeBtn}>
-                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-                  <span>15</span>
-                </button>
-              </div>
-            </div>
-            <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
-              <span className={styles.docs_card_name}>음식 이름</span>
-              <div className={styles.likeBtnBox}>
-                <button className={styles.likeBtn}>
-                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-                  <span>15</span>
-                </button>
-              </div>
-            </div>
-            <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
-              <span className={styles.docs_card_name}>음식 이름</span>
-              <div className={styles.likeBtnBox}>
-                <button className={styles.likeBtn}>
-                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-                  <span>15</span>
-                </button>
-              </div>
-            </div>
-            <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
-              <span className={styles.docs_card_name}>음식 이름</span>
-              <div className={styles.likeBtnBox}>
-                <button className={styles.likeBtn}>
-                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-                  <span>15</span>
-                </button>
-              </div>
-            </div>
-            <div className={styles.docs_card}>
-              <Image src='/docs1.png' alt="Docs Image" width={200} height={150} />
-              <span className={styles.docs_card_name}>음식 이름</span>
-              <div className={styles.likeBtnBox}>
-                <button className={styles.likeBtn}>
-                  <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-                  <span>15</span>
-                </button>
-              </div>
-            </div>
+            {
+
+            isRecipe.map((value, index) => {
+              return (
+                <div className={styles.docs_card} key={index}>
+                  <Image src={value.thumbnail} alt="Docs Image" width={200} height={150} />
+                  <span className={styles.docs_card_name}>{value.title}</span>
+                  <div className={styles.likeBtnBox}>
+                    <button className={styles.likeBtn} onClick={likeBtn}>
+                      <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+                      <span>15</span>
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
