@@ -1,199 +1,189 @@
-'use client'
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 
-import Image from 'next/image'
-import styles from './page.module.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp, faHeart } from '@fortawesome/free-solid-svg-icons'
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import axios from 'axios'
+import Image from "next/image";
+import styles from "./page.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronDown,
+  faChevronUp,
+  faHeart,
+} from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import axios from "axios";
 
 export default function Home() {
-
-  const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT
-  const [isRecipeTypeOpen, setIsRecipeTypeOpen] = useState(false)
-  const [isIngredientsOpen, setIsIngredientsOpen] = useState(false)
-  const [isDifficultyOpen, setIsDifficultyOpen] = useState(false)
-  const [isRecipeSourceOpen, setIsRecipeSourceOpen] = useState(false)
-  const [isRecipe, setIsRecipe] = useState<string[]>([])
+  const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
+  const [isRecipeTypeOpen, setIsRecipeTypeOpen] = useState(false);
+  const [isIngredientsOpen, setIsIngredientsOpen] = useState(false);
+  const [isDifficultyOpen, setIsDifficultyOpen] = useState(false);
+  const [isRecipeSourceOpen, setIsRecipeSourceOpen] = useState(false);
+  const [isRecipe, setIsRecipe] = useState<string[]>([]);
 
   const likeBtn = () => {
-    axios.post(`${BackendBaseURL}/heart/4`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    })
+    axios
+      .post(`${BackendBaseURL}/heart/4`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
       .then((response) => {
         console.log(response.data);
-        
       })
       .catch((error) => {
         console.error("API 호출 중 오류 발생:", error);
       });
-  }
+  };
 
   const clickRecipeTypeBtn = () => {
     if (isRecipeTypeOpen === false) {
-      setIsRecipeTypeOpen(true)
+      setIsRecipeTypeOpen(true);
     } else {
-      setIsRecipeTypeOpen(false)
+      setIsRecipeTypeOpen(false);
     }
-  }
+  };
   const clickIngredientsBtn = () => {
     if (isIngredientsOpen === false) {
-      setIsIngredientsOpen(true)
+      setIsIngredientsOpen(true);
     } else {
-      setIsIngredientsOpen(false)
+      setIsIngredientsOpen(false);
     }
-  }
+  };
   const clickDifficultyBtn = () => {
     if (isDifficultyOpen === false) {
-      setIsDifficultyOpen(true)
+      setIsDifficultyOpen(true);
     } else {
-      setIsDifficultyOpen(false)
+      setIsDifficultyOpen(false);
     }
-  }
+  };
   const clickRecipeSourceBtn = () => {
     if (isRecipeSourceOpen === false) {
-      setIsRecipeSourceOpen(true)
+      setIsRecipeSourceOpen(true);
     } else {
-      setIsRecipeSourceOpen(false)
+      setIsRecipeSourceOpen(false);
     }
-  }
+  };
 
   useEffect(() => {
-    axios.get(`${BackendBaseURL}/recipe/brief`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    })
+    axios
+      .get(`${BackendBaseURL}/recipe/brief`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
       .then((response) => {
         setIsRecipe(response.data);
         console.log(response.data);
-        
       })
       .catch((error) => {
         console.error("API 호출 중 오류 발생:", error);
       });
-  }, [])
+  }, []);
 
   return (
     <main className={styles.main}>
       <section className={styles.popular_recipes_container}>
-        <Image className={styles.image} src='/popular_recipes_image.png' alt="Profile Image" width={2000} height={600} layout='responsive' />
+        <Image
+          className={styles.image}
+          //src="/popular_recipes_image.png"
+          src="/main8.png"
+          alt="Profile Image"
+          width={2000}
+          height={550}
+          loading="eager"
+        />
       </section>
       <section className={styles.middle_container}>
         <div className={styles.filter_recipes}>
           <h2 className={styles.filter_recipes_title}>Filter Recipes</h2>
           <div className={styles.content}>
             <div className={styles.content_title}>
-              <h3 >Recipe type</h3>
-              <button
-                onClick={clickRecipeTypeBtn}
-              >
+              <h3>Recipe type</h3>
+              <button onClick={clickRecipeTypeBtn}>
                 {!isRecipeTypeOpen && <FontAwesomeIcon icon={faChevronDown} />}
                 {isRecipeTypeOpen && <FontAwesomeIcon icon={faChevronUp} />}
               </button>
             </div>
-            {isRecipeTypeOpen && <ul className={styles.content_list}>
-              <li>
-                <input
-                  className={styles.checkBox}
-                  type="checkbox"
-                />
-                선택사항1
-              </li>
-              <li>
-                <input
-                  className={styles.checkBox}
-                  type="checkbox"
-                />
-                선택사항2
-              </li>
-            </ul>}
+            {isRecipeTypeOpen && (
+              <ul className={styles.content_list}>
+                <li>
+                  <input className={styles.checkBox} type="checkbox" />
+                  Cookify Public
+                </li>
+                <li>
+                  <input className={styles.checkBox} type="checkbox" />
+                  Cookify People
+                </li>
+              </ul>
+            )}
           </div>
           <div className={styles.content}>
             <div className={styles.content_title}>
-              <h3 >Ingredients</h3>
-              <button
-                onClick={clickIngredientsBtn}
-              >
+              <h3>Ingredients</h3>
+              <button onClick={clickIngredientsBtn}>
                 {!isIngredientsOpen && <FontAwesomeIcon icon={faChevronDown} />}
                 {isIngredientsOpen && <FontAwesomeIcon icon={faChevronUp} />}
               </button>
             </div>
-            {isIngredientsOpen && <ul className={styles.content_list}>
-              <li>
-                <input
-                  className={styles.checkBox}
-                  type="checkbox"
-                />
-                선택사항1
-              </li>
-              <li>
-                <input
-                  className={styles.checkBox}
-                  type="checkbox"
-                />
-                선택사항2
-              </li>
-            </ul>}
+            {isIngredientsOpen && (
+              <ul className={styles.content_list}>
+                <li>
+                  <input className={styles.checkBox} type="checkbox" />
+                  선택사항1
+                </li>
+                <li>
+                  <input className={styles.checkBox} type="checkbox" />
+                  선택사항2
+                </li>
+              </ul>
+            )}
           </div>
           <div className={styles.content}>
             <div className={styles.content_title}>
-              <h3 >Difficulty</h3>
-              <button
-                onClick={clickDifficultyBtn}
-              >
+              <h3>Difficulty</h3>
+              <button onClick={clickDifficultyBtn}>
                 {!isDifficultyOpen && <FontAwesomeIcon icon={faChevronDown} />}
                 {isDifficultyOpen && <FontAwesomeIcon icon={faChevronUp} />}
               </button>
             </div>
-            {isDifficultyOpen && <ul className={styles.content_list}>
-              <li>
-                <input
-                  className={styles.checkBox}
-                  type="checkbox"
-                />
-                선택사항1
-              </li>
-              <li>
-                <input
-                  className={styles.checkBox}
-                  type="checkbox"
-                />
-                선택사항2
-              </li>
-            </ul>}
+            {isDifficultyOpen && (
+              <ul className={styles.content_list}>
+                <li>
+                  <input className={styles.checkBox} type="checkbox" />
+                  선택사항1
+                </li>
+                <li>
+                  <input className={styles.checkBox} type="checkbox" />
+                  선택사항2
+                </li>
+              </ul>
+            )}
           </div>
           <div className={styles.content}>
             <div className={styles.content_title}>
-              <h3 >Recipe Source</h3>
-              <button
-                onClick={clickRecipeSourceBtn}
-              >
-                {!isRecipeSourceOpen && <FontAwesomeIcon icon={faChevronDown} />}
+              <h3>Recipe Source</h3>
+              <button onClick={clickRecipeSourceBtn}>
+                {!isRecipeSourceOpen && (
+                  <FontAwesomeIcon icon={faChevronDown} />
+                )}
                 {isRecipeSourceOpen && <FontAwesomeIcon icon={faChevronUp} />}
               </button>
             </div>
-            {isRecipeSourceOpen && <ul className={styles.content_list}>
-              <li>
-                <input
-                  className={styles.checkBox}
-                  type="checkbox"
-                />
-                선택사항1
-              </li>
-              <li>
-                <input
-                  className={styles.checkBox}
-                  type="checkbox"
-                />
-                선택사항2
-              </li>
-            </ul>}
+            {isRecipeSourceOpen && (
+              <ul className={styles.content_list}>
+                <li>
+                  <input className={styles.checkBox} type="checkbox" />
+                  선택사항1
+                </li>
+                <li>
+                  <input className={styles.checkBox} type="checkbox" />
+                  선택사항2
+                </li>
+              </ul>
+            )}
           </div>
         </div>
         <div className={styles.filtered_recipes}>
@@ -205,18 +195,19 @@ export default function Home() {
               <button>디저트</button>
             </div>
             <Link href="/posting">
-              <button className={styles.postBtn}>
-                레시피 작성
-              </button>
+              <button className={styles.postBtn}>레시피 작성</button>
             </Link>
           </div>
           <div className={styles.downContainer}>
-            {
-
-            isRecipe.map((value, index) => {
+            {isRecipe.map((value, index) => {
               return (
                 <div className={styles.docs_card} key={index}>
-                  <Image src={value.thumbnail} alt="Docs Image" width={200} height={150} />
+                  <Image
+                    src={value.thumbnail}
+                    alt="Docs Image"
+                    width={200}
+                    height={150}
+                  />
                   <span className={styles.docs_card_name}>{value.title}</span>
                   <div className={styles.likeBtnBox}>
                     <button className={styles.likeBtn} onClick={likeBtn}>
@@ -225,7 +216,7 @@ export default function Home() {
                     </button>
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -233,10 +224,16 @@ export default function Home() {
       <section className={styles.last_container}>
         <div className={styles.word}>
           <span>Browse All Recipes</span>
-          <div >
-            <em>Discover a world of delicious recipes with our curated selection.</em>
-            <em>Whether you are looking for a quick weeknight dinner or a show-</em>
-            <em>stopping dessert, we have a recipe for every occasion. All our</em>
+          <div>
+            <em>
+              Discover a world of delicious recipes with our curated selection.
+            </em>
+            <em>
+              Whether you are looking for a quick weeknight dinner or a show-
+            </em>
+            <em>
+              stopping dessert, we have a recipe for every occasion. All our
+            </em>
             <em>recipes are made with fresh ingredients and easy-to-follow</em>
             <em>instructions. Start exploring now!</em>
           </div>
@@ -251,5 +248,5 @@ export default function Home() {
         </div>
       </section>
     </main>
-  )
+  );
 }

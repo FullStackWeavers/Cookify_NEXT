@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import { faXmark } from "@fortawesome/free-solid-svg-icons"
-import styles from "../alarm/css/page.module.css"
-import Image from "next/image"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import styles from "../alarm/css/page.module.css";
+import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function MyAlarm(props: { AlarmModalClick: any }) {
-  const { AlarmModalClick } = props
+  const { AlarmModalClick } = props;
   return (
     <div className={styles.alarm}>
       <div className={styles.alarmbar}>
@@ -16,7 +16,7 @@ export default function MyAlarm(props: { AlarmModalClick: any }) {
       </div>
       <div className={styles.container}>
         <div>
-          <Image src='/profile.png' alt="" width={50} height={50} />
+          <Image src="/profile.png" alt="" width={50} height={50} />
         </div>
         <div>
           <h4>username</h4>
@@ -25,7 +25,7 @@ export default function MyAlarm(props: { AlarmModalClick: any }) {
       </div>
       <div className={styles.container}>
         <div>
-          <Image src='/profile.png' alt="" width={50} height={50} />
+          <Image src="/profile.png" alt="" width={50} height={50} />
         </div>
         <div>
           <h4>username</h4>
@@ -33,5 +33,5 @@ export default function MyAlarm(props: { AlarmModalClick: any }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

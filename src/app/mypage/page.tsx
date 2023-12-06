@@ -4,7 +4,6 @@ import styles from "./css/page.module.css";
 import {
   faBook,
   faHeart,
-  faRightFromBracket,
   faUser,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";

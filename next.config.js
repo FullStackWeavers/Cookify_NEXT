@@ -6,7 +6,11 @@ module.exports = {
     includePaths: [path.join(__dirname, "styles")],
   },
   images: {
-    domains: ['search.pstatic.net', 'recipe1.ezmember.co.kr', 'lh3.googleusercontent.com'],
+    domains: [
+      "search.pstatic.net",
+      "recipe1.ezmember.co.kr",
+      "lh3.googleusercontent.com",
+    ],
   },
   async rewrites() {
     return [
