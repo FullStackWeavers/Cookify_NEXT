@@ -88,10 +88,11 @@ export default function Home() {
       <section className={styles.popular_recipes_container}>
         <Image
           className={styles.image}
-          src="/popular_recipes_image.png"
+          //src="/popular_recipes_image.png"
+          src="/main8.png"
           alt="Profile Image"
           width={2000}
-          height={600}
+          height={550}
           loading="eager"
         />
       </section>
@@ -110,11 +111,11 @@ export default function Home() {
               <ul className={styles.content_list}>
                 <li>
                   <input className={styles.checkBox} type="checkbox" />
-                  선택사항1
+                  Cookify Public
                 </li>
                 <li>
                   <input className={styles.checkBox} type="checkbox" />
-                  선택사항2
+                  Cookify People
                 </li>
               </ul>
             )}
