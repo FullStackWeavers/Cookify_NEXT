@@ -1,8 +1,9 @@
+/* eslint-disable react/jsx-key */
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./css/page.module.css";
 import { faFileArrowUp, faUtensils } from "@fortawesome/free-solid-svg-icons";
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 
@@ -10,7 +11,7 @@ export default function Posting() {
   const [isTitle, setIsTitle] = useState("");
   const [isOnTitle, setIsOnTitle] = useState(false);
   const [isTitleValue, setIsTitleValue] = useState("");
-  const [isImage, setIsImage] = useState("");
+  const [isImage, setIsImage] = useState<File | null>(null);
   const [isSteps, setIsSteps] = useState<string[]>([""]);
   const [isIngredients1, setIsIngredients1] = useState<string[]>([]);
   const [isIngredients2, setIsIngredients2] = useState<string[]>([]);
@@ -27,16 +28,19 @@ export default function Posting() {
     setIsTitle(isTitleValue);
   };
 
-  const recipeTitleInput = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
+  const recipeTitleInput = (e: { target: { value: string } }) => {
     setIsTitleValue(e.target.value);
   };
 
   const imageUpload = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
-      console.log(fileInputRef.current?.value);
+    }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setIsImage(e.target.files[0]);
     }
   };
 
@@ -49,10 +53,12 @@ export default function Posting() {
     setIsIngredientName1("");
     setIsIngredientWeight1("");
   };
-  const ingredientName1 = (e: { target: { value: any } }) => {
+
+  const ingredientName1 = (e: { target: { value: string } }) => {
     setIsIngredientName1(e.target.value);
   };
-  const ingredientWeight1 = (e: { target: { value: any } }) => {
+
+  const ingredientWeight1 = (e: { target: { value: string } }) => {
     setIsIngredientWeight1(e.target.value);
   };
 
@@ -71,17 +77,19 @@ export default function Posting() {
     setIsIngredientName2("");
     setIsIngredientWeight2("");
   };
-  const ingredientName2 = (e: { target: { value: any } }) => {
+
+  const ingredientName2 = (e: { target: { value: string } }) => {
     setIsIngredientName2(e.target.value);
   };
-  const ingredientWeight2 = (e: { target: { value: any } }) => {
+
+  const ingredientWeight2 = (e: { target: { value: string } }) => {
     setIsIngredientWeight2(e.target.value);
   };
 
   const ingredientsDelete2 = (index: number) => {
-    const ingredients = [...isIngredients1];
+    const ingredients = [...isIngredients2];
     ingredients.splice(index, 1);
-    setIsIngredients1(ingredients);
+    setIsIngredients2(ingredients);
   };
 
   const stepPosting = () => {
@@ -89,7 +97,7 @@ export default function Posting() {
     setIsSteps(data);
   };
 
-  const recipePosting = (e: { target: { value: any } }, index: number) => {
+  const recipePosting = (e: { target: { value: string } }, index: number) => {
     const data = [...isSteps];
     data[index] = e.target.value;
     setIsSteps(data);
@@ -97,48 +105,48 @@ export default function Posting() {
 
   const ingredientsBtn = () => {
     setIsIngredients(!isIngredients);
-    if (isIngredients == true) {
+    if (isIngredients === true) {
       setIsIngredients2([]);
     }
   };
 
-  const handleFileInputChange = (event: any) => {
-    const file = event.target.files[0];
-    // Use FileReader to read the contents of the file
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const imageUrl = reader.result as string;
-      setIsImage(imageUrl);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
+  const recipeCreate = async () => {
+    try {
+      const recipeData = {
+        title: isTitle,
+        steps: isSteps,
+        ingredients1: isIngredients1,
+        ingredients2: isIngredients2,
+      };
 
-  const recipeCreate = () => {
-    axios
-      .post(
+      const response = await axios.post(
         "http://localhost:8080/recipe",
+        recipeData,
         {
-          title: isTitle,
-          ingredients: isIngredients1,
-          ingredients2: isIngredients2,
-          steps: isSteps,
-          thumbnail: isImage,
-        },
-        {
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true,
         }
-      )
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log("에러 응답:", error.response);
-      });
+      );
+
+      console.log(response);
+
+      // recipe 저장 후에 thumbnail 업로드
+      if (response.data && response.data.recipeId && isImage) {
+        const thumbnailData = new FormData();
+        thumbnailData.append("thumbnail", isImage);
+
+        await axios.post("http://localhost:8080/recipe/image", thumbnailData, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+    } catch (error: any) {
+      console.log("에러 응답:", error.response);
+    }
   };
 
   useEffect(() => {
@@ -173,12 +181,17 @@ export default function Posting() {
           )}
           <button onClick={recipeTitle}>{!isOnTitle ? "저장" : "수정"}</button>
         </p>
-        {isImage.length === 0 ? (
+        {isImage ? (
+          <Image
+            src={URL.createObjectURL(isImage)}
+            alt="Uploaded Image"
+            width={300}
+            height={200}
+          />
+        ) : (
           <div className={styles.iconBox}>
             <FontAwesomeIcon className={styles.icon} icon={faFileArrowUp} />
           </div>
-        ) : (
-          <Image src={isImage} alt="Uploaded Image" width={300} height={200} />
         )}
 
         <div>
@@ -196,9 +209,9 @@ export default function Posting() {
           <input
             type="file"
             accept="image/*"
-            onChange={handleFileInputChange}
             ref={fileInputRef}
             style={{ display: "none" }}
+            onChange={handleImageChange}
           />
         </div>
       </div>
@@ -233,8 +246,7 @@ export default function Posting() {
             </div>
             {isIngredients1.map((ingredient, index) => {
               return ingredient.length > 0 ? (
-                // eslint-disable-next-line react/jsx-key
-                <div>
+                <div key={index}>
                   <li>
                     <ul>
                       <p>{ingredient}</p>
@@ -276,8 +288,7 @@ export default function Posting() {
               </div>
               {isIngredients2.map((ingredient, index) => {
                 return ingredient.length > 0 ? (
-                  // eslint-disable-next-line react/jsx-key
-                  <div>
+                  <div key={index}>
                     <li>
                       <ul>
                         <p>{ingredient}</p>
@@ -315,8 +326,7 @@ export default function Posting() {
         </div>
         {isSteps.map((step, index) => {
           return (
-            // eslint-disable-next-line react/jsx-key
-            <div className={styles.posting__ricipe__list}>
+            <div key={index} className={styles.posting__ricipe__list}>
               <li>
                 <ul>
                   <div>
