@@ -6,6 +6,8 @@ import { faArrowTurnDown, faEllipsis, faListOl, faMessage, faUtensils } from '@f
 import Image from 'next/image'
 import { SetStateAction, useEffect, useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
+
 
 export default function Posting() {
   const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT
@@ -14,6 +16,9 @@ export default function Posting() {
   const [isIngredients2, setIsIngredients2] = useState<string[]>([]);
   const [theIngredients2, setTheIsIngredients2] = useState(false);
   const [isRecipeSteps, setIsRecipeSteps] = useState<string[]>([]);
+
+  const router = useRouter();
+  // const [recipeId:string, recipeType:string] = router.query
 
   const reIngredients = (data: { ingredients: any }) => {
     let a = (data.ingredients).replace(/구매/g, ' ')
@@ -64,6 +69,7 @@ export default function Posting() {
       }
     };
     docsData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 

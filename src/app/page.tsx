@@ -13,17 +13,24 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 
+interface Recipe {
+  recipeId: number;
+  title: string;
+  thumbnail: string;
+}
+
 export default function Home() {
   const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
   const [isRecipeTypeOpen, setIsRecipeTypeOpen] = useState(false);
   const [isIngredientsOpen, setIsIngredientsOpen] = useState(false);
   const [isDifficultyOpen, setIsDifficultyOpen] = useState(false);
   const [isRecipeSourceOpen, setIsRecipeSourceOpen] = useState(false);
-  const [isRecipe, setIsRecipe] = useState<string[]>([]);
+  const [isRecipe, setIsRecipe] = useState<Recipe[]>([]);
+  const [isLikeNumber, setIsLikeNumber] = useState<number>()
 
-  const likeBtn = () => {
+  const likeBtn = (recipeId: number) => {
     axios
-      .post(`${BackendBaseURL}/heart/4`, {
+      .post(`${BackendBaseURL}/heart/${recipeId}`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -36,6 +43,64 @@ export default function Home() {
         console.error("API 호출 중 오류 발생:", error);
       });
   };
+
+  const likeNumber = (recipeId: number) => {
+    axios.get(`${BackendBaseURL}/heart/${recipeId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    })
+      .then((response) => {
+        console.log(response.data);
+        // if (response.data == 0) {
+        //   setIsLikeNumber(0)
+        // }
+        // setIsLikeNumber(response.data)
+      })
+      .catch((error) => {
+        console.error("API 호출 중 오류 발생:", error);
+      });
+  }
+
+  const likeTypeUser = () => {
+    recipeType("user")
+  }
+  const likeTypeDocs = () => {
+    recipeType("docs")
+  }
+
+  const recipeType = (type: string) => {
+    if (type == "user") {
+      axios.get(`${BackendBaseURL}/recipe/brief`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+        .then((response) => {
+          setIsRecipe(response.data);
+        })
+        .catch((error) => {
+          console.error("API 호출 중 오류 발생:", error);
+        });
+    } else if (type == "docs") {
+      axios.get(`${BackendBaseURL}/recipe/recipe_docs`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+        .then((response) => {
+          setIsRecipe(response.data);
+          console.log(response.data);
+          
+        })
+        .catch((error) => {
+          console.error("API 호출 중 오류 발생:", error);
+        });
+    }
+  }
 
   const clickRecipeTypeBtn = () => {
     if (isRecipeTypeOpen === false) {
@@ -97,127 +162,35 @@ export default function Home() {
         />
       </section>
       <section className={styles.middle_container}>
-        <div className={styles.filter_recipes}>
-          <h2 className={styles.filter_recipes_title}>Filter Recipes</h2>
-          <div className={styles.content}>
-            <div className={styles.content_title}>
-              <h3>Recipe type</h3>
-              <button onClick={clickRecipeTypeBtn}>
-                {!isRecipeTypeOpen && <FontAwesomeIcon icon={faChevronDown} />}
-                {isRecipeTypeOpen && <FontAwesomeIcon icon={faChevronUp} />}
-              </button>
-            </div>
-            {isRecipeTypeOpen && (
-              <ul className={styles.content_list}>
-                <li>
-                  <input className={styles.checkBox} type="checkbox" />
-                  Cookify Public
-                </li>
-                <li>
-                  <input className={styles.checkBox} type="checkbox" />
-                  Cookify People
-                </li>
-              </ul>
-            )}
-          </div>
-          <div className={styles.content}>
-            <div className={styles.content_title}>
-              <h3>Ingredients</h3>
-              <button onClick={clickIngredientsBtn}>
-                {!isIngredientsOpen && <FontAwesomeIcon icon={faChevronDown} />}
-                {isIngredientsOpen && <FontAwesomeIcon icon={faChevronUp} />}
-              </button>
-            </div>
-            {isIngredientsOpen && (
-              <ul className={styles.content_list}>
-                <li>
-                  <input className={styles.checkBox} type="checkbox" />
-                  선택사항1
-                </li>
-                <li>
-                  <input className={styles.checkBox} type="checkbox" />
-                  선택사항2
-                </li>
-              </ul>
-            )}
-          </div>
-          <div className={styles.content}>
-            <div className={styles.content_title}>
-              <h3>Difficulty</h3>
-              <button onClick={clickDifficultyBtn}>
-                {!isDifficultyOpen && <FontAwesomeIcon icon={faChevronDown} />}
-                {isDifficultyOpen && <FontAwesomeIcon icon={faChevronUp} />}
-              </button>
-            </div>
-            {isDifficultyOpen && (
-              <ul className={styles.content_list}>
-                <li>
-                  <input className={styles.checkBox} type="checkbox" />
-                  선택사항1
-                </li>
-                <li>
-                  <input className={styles.checkBox} type="checkbox" />
-                  선택사항2
-                </li>
-              </ul>
-            )}
-          </div>
-          <div className={styles.content}>
-            <div className={styles.content_title}>
-              <h3>Recipe Source</h3>
-              <button onClick={clickRecipeSourceBtn}>
-                {!isRecipeSourceOpen && (
-                  <FontAwesomeIcon icon={faChevronDown} />
-                )}
-                {isRecipeSourceOpen && <FontAwesomeIcon icon={faChevronUp} />}
-              </button>
-            </div>
-            {isRecipeSourceOpen && (
-              <ul className={styles.content_list}>
-                <li>
-                  <input className={styles.checkBox} type="checkbox" />
-                  선택사항1
-                </li>
-                <li>
-                  <input className={styles.checkBox} type="checkbox" />
-                  선택사항2
-                </li>
-              </ul>
-            )}
-          </div>
-        </div>
         <div className={styles.filtered_recipes}>
           <div className={styles.upContainer}>
             <div className={styles.whenBtn}>
-              <button>아침</button>
-              <button>점심</button>
-              <button>저녁</button>
-              <button>디저트</button>
+              <button onClick={likeTypeUser}>유저 레시피</button>
+              <button onClick={likeTypeDocs}>기본 레시피</button>
             </div>
             <Link href="/posting">
               <button className={styles.postBtn}>레시피 작성</button>
             </Link>
           </div>
           <div className={styles.downContainer}>
-            {isRecipe.map((value, index) => {
-              return (
-                <div className={styles.docs_card} key={index}>
-                  <Image
-                    src={value.thumbnail}
-                    alt="Docs Image"
-                    width={200}
-                    height={150}
-                  />
-                  <span className={styles.docs_card_name}>{value.title}</span>
-                  <div className={styles.likeBtnBox}>
-                    <button className={styles.likeBtn} onClick={likeBtn}>
-                      <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-                      <span>15</span>
-                    </button>
+            {
+              isRecipe.map((value, index) => {
+                likeNumber(value.recipeId)
+                return (
+                  // <Link href={`/detail/${value.recipeId}`} key={index}>
+                  <div className={styles.docs_card} key={index}>
+                    <Image src={value.thumbnail} alt="Docs Image" width={200} height={150} />
+                    <span className={styles.docs_card_name}>{value.title}</span>
+                    <div className={styles.likeBtnBox}>
+                      <button className={styles.likeBtn} onClick={e => likeBtn(value.recipeId)}>
+                        <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+                        <span>{isLikeNumber}</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                  // </Link>
+                )
+              })}
           </div>
         </div>
       </section>

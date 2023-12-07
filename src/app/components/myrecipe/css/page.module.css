@@ -16,6 +16,8 @@
   display: inline-block;
   width: 275px;
   margin: 10px;
+  border-radius: 10px 10px 5px 5px;
+  box-shadow: 2px 2px 2px gray;
 }
 .mypage__component .mypage__component__recipe div img {
   border-radius: 10px;
@@ -24,6 +26,5 @@
   background-color: green;
 }
 .mypage__component .mypage__component__recipe div p {
-  background-color: red;
   text-align: center;
 }/*# sourceMappingURL=page.module.css.map */

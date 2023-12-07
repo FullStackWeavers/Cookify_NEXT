@@ -1,6 +1,8 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import axios from "../../../axios_instance";
+import Image from "next/image";
+import styles from "../login/css/page.module.css"
 
 const checkBackendAuthentication = async (
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
@@ -53,7 +55,10 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className={styles.login}>
+        <button className={styles.loginImg} onClick={handleLogin}>
+          <Image src={"/img/web_light_rd_SU@2x.png"} alt={""} width={200} height={50}></Image>
+        </button>
       {isAuthenticated ? (
         <div>
           <p>Welcome! You are logged in.</p>
