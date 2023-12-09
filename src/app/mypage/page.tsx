@@ -14,6 +14,7 @@ import MyLike from "../components/mylike/page";
 import { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
+import MyContent from "../components/mycontent/mycontent";
 
 export default function MyPage() {
   const [isMyPage, setIsMyPage] = useState("MyInfo");
@@ -55,42 +56,45 @@ export default function MyPage() {
   };
 
   return (
-    <main className={styles.main}>
-      <div className={styles.mypageBar}>
-        <Link href={"/"}>
-          <h2>Cookify</h2>
-        </Link>
-        <div className={styles.barMenu1}>
-          <button
-            className={isMyPage == "MyInfo" ? styles.onPage : ""}
-            onClick={() => MyPageClick("MyInfo")}
-          >
-            <FontAwesomeIcon className={styles.barIcon} icon={faUser} />내 정보
-          </button>
-          <button
-            className={isMyPage == "MyFollow" ? styles.onPage : ""}
-            onClick={() => MyPageClick("MyFollow")}
-          >
-            <FontAwesomeIcon className={styles.barIcon} icon={faUsers} />
-            팔로워
-          </button>
-          <button
-            className={isMyPage == "MyRecipe" ? styles.onPage : ""}
-            onClick={() => MyPageClick("MyRecipe")}
-          >
-            <FontAwesomeIcon className={styles.barIcon} icon={faBook} />
-            나의 레시피
-          </button>
-          <button
-            className={isMyPage == "MyLike" ? styles.onPage : ""}
-            onClick={() => MyPageClick("MyLike")}
-          >
-            <FontAwesomeIcon className={styles.barIcon} icon={faHeart} />
-            좋아요
-          </button>
+    <>
+      <MyContent />
+      <main className={styles.main}>
+        <div className={styles.mypageBar}>
+          <Link href={"/"}>
+            <h2>Cookify</h2>
+          </Link>
+          <div className={styles.barMenu1}>
+            <button
+              className={isMyPage == "MyInfo" ? styles.onPage : ""}
+              onClick={() => MyPageClick("MyInfo")}
+            >
+              <FontAwesomeIcon className={styles.barIcon} icon={faUser} />내 정보
+            </button>
+            <button
+              className={isMyPage == "MyFollow" ? styles.onPage : ""}
+              onClick={() => MyPageClick("MyFollow")}
+            >
+              <FontAwesomeIcon className={styles.barIcon} icon={faUsers} />
+              팔로워
+            </button>
+            <button
+              className={isMyPage == "MyRecipe" ? styles.onPage : ""}
+              onClick={() => MyPageClick("MyRecipe")}
+            >
+              <FontAwesomeIcon className={styles.barIcon} icon={faBook} />
+              나의 레시피
+            </button>
+            <button
+              className={isMyPage == "MyLike" ? styles.onPage : ""}
+              onClick={() => MyPageClick("MyLike")}
+            >
+              <FontAwesomeIcon className={styles.barIcon} icon={faHeart} />
+              좋아요
+            </button>
+          </div>
         </div>
-      </div>
-      <div>{MyPageCheack()}</div>
-    </main>
+        <div>{MyPageCheack()}</div>
+      </main>
+    </>
   );
 }

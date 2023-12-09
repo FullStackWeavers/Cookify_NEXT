@@ -55,7 +55,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: space-between;
   padding: 30px;
 }
 .container .innerBox .right .box {
@@ -70,6 +71,7 @@
 .container .innerBox .right .box .inputButtonBox {
   display: flex;
   margin-bottom: 20px;
+  width: 100%;
 }
 .container .innerBox .right .box .inputButtonBox .inputBox {
   width: 400px;
@@ -105,4 +107,10 @@
 }
 .container .innerBox .right .box .inputButtonBox .buttonBox span {
   font-size: 15px;
+}
+.container .innerBox .right button {
+  width: 100px;
+  height: 40px;
+  background-color: #d2de32;
+  border-radius: 20px;
 }/*# sourceMappingURL=myinfo.module.css.map */

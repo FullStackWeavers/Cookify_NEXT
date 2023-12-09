@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./css/page.module.css";
@@ -6,6 +5,8 @@ import { faFileArrowUp, faUtensils } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
+import Header from "../components/header/header";
+import MyContent from "../components/mycontent/mycontent";
 
 export default function Posting() {
   const [isTitle, setIsTitle] = useState("");
@@ -21,6 +22,7 @@ export default function Posting() {
   const [isIngredientName2, setIsIngredientName2] = useState("");
   const [isIngredientWeight2, setIsIngredientWeight2] = useState("");
   const [isUser, setIsUser] = useState({ email: "", name: "", picture: "" });
+  const [isImageUrl, setIsImageUrl] = useState("")
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const recipeTitle = () => {
@@ -41,6 +43,22 @@ export default function Posting() {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setIsImage(e.target.files[0]);
+      const data = new FormData();
+      data.append("file", e.target.files[0]);
+
+      axios
+        .post("http://localhost:8080/recipe/image", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setIsImageUrl(response.data)
+        })
+        .catch((error) => {
+          console.log("에러 응답:", error.response);
+        });
     }
   };
 
@@ -117,6 +135,7 @@ export default function Posting() {
         steps: isSteps,
         ingredients1: isIngredients1,
         ingredients2: isIngredients2,
+        thumbnail:isImageUrl
       };
 
       const response = await axios.post(
@@ -129,21 +148,7 @@ export default function Posting() {
           },
         }
       );
-
-      console.log(response);
-
-      // recipe 저장 후에 thumbnail 업로드
-      if (response.data && response.data.recipeId && isImage) {
-        const thumbnailData = new FormData();
-        thumbnailData.append("thumbnail", isImage);
-
-        await axios.post("http://localhost:8080/recipe/image", thumbnailData, {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-      }
+      console.log(response.data.id);
     } catch (error: any) {
       console.log("에러 응답:", error.response);
     }
@@ -167,126 +172,87 @@ export default function Posting() {
   }, []);
 
   return (
-    <main className={styles.main}>
-      <div className={styles.posting__title}>
-        <p>
-          {!isOnTitle ? (
-            <input
-              type="text"
-              value={isTitleValue}
-              onChange={recipeTitleInput}
+    <>
+      <Header />
+      <MyContent />
+      <main className={styles.main}>
+        <div className={styles.posting__title}>
+          <p>
+            {!isOnTitle ? (
+              <input
+                type="text"
+                value={isTitleValue}
+                onChange={recipeTitleInput}
+              />
+            ) : (
+              isTitle
+            )}
+            <button onClick={recipeTitle}>{!isOnTitle ? "저장" : "수정"}</button>
+          </p>
+          {isImage ? (
+            <Image
+              src={URL.createObjectURL(isImage)}
+              alt="Uploaded Image"
+              width={300}
+              height={200}
             />
           ) : (
-            isTitle
+            <div className={styles.iconBox}>
+              <FontAwesomeIcon className={styles.icon} icon={faFileArrowUp} />
+            </div>
           )}
-          <button onClick={recipeTitle}>{!isOnTitle ? "저장" : "수정"}</button>
-        </p>
-        {isImage ? (
-          <Image
-            src={URL.createObjectURL(isImage)}
-            alt="Uploaded Image"
-            width={300}
-            height={200}
-          />
-        ) : (
-          <div className={styles.iconBox}>
-            <FontAwesomeIcon className={styles.icon} icon={faFileArrowUp} />
-          </div>
-        )}
 
-        <div>
-          <span>
-            <Image src={isUser.picture} alt="" width={50} height={50} />
-            <p>{isUser.name}</p>
-          </span>
-          <button className={styles.posting__image} onClick={imageUpload}>
-            <span className="icon">
-              <FontAwesomeIcon icon={faFileArrowUp} />
+          <div>
+            <span>
+              <Image src={isUser.picture} alt="" width={50} height={50} />
+              <p>{isUser.name}</p>
             </span>
-            <span className="explain">대표 이미지 업로드</span>
-          </button>
+            <button className={styles.posting__image} onClick={imageUpload}>
+              <span className="icon">
+                <FontAwesomeIcon icon={faFileArrowUp} />
+              </span>
+              <span className="explain">대표 이미지 업로드</span>
+            </button>
 
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            onChange={handleImageChange}
-          />
-        </div>
-      </div>
-
-      <div className={styles.posting__ingredient}>
-        <h1>
-          <FontAwesomeIcon className={styles.icon} icon={faUtensils} />
-          <span>재료</span>
-        </h1>
-        <div className={styles.posting__ingredient__list}>
-          <div className={styles.posting__ingredient__item}>
-            <div>
-              <h2>[재료]</h2>
-              {!isIngredients ? (
-                <button onClick={ingredientsBtn}>부재료 추가</button>
-              ) : null}
-            </div>
-            <div>
-              <input
-                type="text"
-                value={isIngredientName1}
-                placeholder="재료 이름"
-                onChange={ingredientName1}
-              />
-              <input
-                type="text"
-                value={isIngredientWeight1}
-                placeholder="수량"
-                onChange={ingredientWeight1}
-              />
-              <button onClick={recipeIngredients1}>재료추가</button>
-            </div>
-            {isIngredients1.map((ingredient, index) => {
-              return ingredient.length > 0 ? (
-                <div key={index}>
-                  <li>
-                    <ul>
-                      <p>{ingredient}</p>
-                    </ul>
-                  </li>
-                  <button
-                    onClick={(e) => {
-                      ingredientsDelete1(index);
-                    }}
-                  >
-                    삭제
-                  </button>
-                </div>
-              ) : null;
-            })}
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
           </div>
-          {!isIngredients ? null : (
+        </div>
+
+        <div className={styles.posting__ingredient}>
+          <h1>
+            <FontAwesomeIcon className={styles.icon} icon={faUtensils} />
+            <span>재료</span>
+          </h1>
+          <div className={styles.posting__ingredient__list}>
             <div className={styles.posting__ingredient__item}>
               <div>
-                <h2>[부재료]</h2>
-                {!isIngredients ? null : (
-                  <button onClick={ingredientsBtn}>부재료 제거</button>
-                )}
+                <h2>[재료]</h2>
+                {!isIngredients ? (
+                  <button onClick={ingredientsBtn}>부재료 추가</button>
+                ) : null}
               </div>
               <div>
                 <input
                   type="text"
-                  value={isIngredientName2}
+                  value={isIngredientName1}
                   placeholder="재료 이름"
-                  onChange={ingredientName2}
+                  onChange={ingredientName1}
                 />
                 <input
                   type="text"
-                  value={isIngredientWeight2}
+                  value={isIngredientWeight1}
                   placeholder="수량"
-                  onChange={ingredientWeight2}
+                  onChange={ingredientWeight1}
                 />
-                <button onClick={recipeIngredients2}>재료추가</button>
+                <button onClick={recipeIngredients1}>재료추가</button>
               </div>
-              {isIngredients2.map((ingredient, index) => {
+              {isIngredients1.map((ingredient, index) => {
                 return ingredient.length > 0 ? (
                   <div key={index}>
                     <li>
@@ -296,7 +262,7 @@ export default function Posting() {
                     </li>
                     <button
                       onClick={(e) => {
-                        ingredientsDelete2(index);
+                        ingredientsDelete1(index);
                       }}
                     >
                       삭제
@@ -305,48 +271,91 @@ export default function Posting() {
                 ) : null;
               })}
             </div>
-          )}
-        </div>
-        <a
-          href="https://www.coupang.com/?src=1042016&spec=10304902&addtag=900&ctag=HOME&lptag=coupang&itime=20231204140029&pageType=HOME&pageValue=HOME&wPcid=9892391435437537413314&wRef=www.google.com&wTime=20231204140029&redirect=landing&gclid=Cj0KCQiA67CrBhC1ARIsACKAa8TLUkyT9NmUgR5ONzXVGSo7W-ARSn0iiO9POcmNw8RYwWLuFWdgV54aAqQJEALw_wcB&mcid=e656d6631f474ee8b126919624b93f01&network=g"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <button className={styles.mycart__button}>구매</button>
-        </a>
-      </div>
-
-      <div className={styles.posting__ricipe}>
-        <div className={styles.posting__ricipe__title}>
-          <h1>
-            <FontAwesomeIcon className={styles.icon} icon={faUtensils} />
-            <span>조리순서</span>
-          </h1>
-          <button onClick={stepPosting}>추가</button>
-        </div>
-        {isSteps.map((step, index) => {
-          return (
-            <div key={index} className={styles.posting__ricipe__list}>
-              <li>
-                <ul>
-                  <div>
-                    <p>{index + 1}</p>
-                  </div>
+            {!isIngredients ? null : (
+              <div className={styles.posting__ingredient__item}>
+                <div>
+                  <h2>[부재료]</h2>
+                  {!isIngredients ? null : (
+                    <button onClick={ingredientsBtn}>부재료 제거</button>
+                  )}
+                </div>
+                <div>
                   <input
-                    type="textarea"
-                    value={step}
-                    className={styles.posting__ricipe__comment}
-                    onChange={(e) => {
-                      recipePosting(e, index);
-                    }}
+                    type="text"
+                    value={isIngredientName2}
+                    placeholder="재료 이름"
+                    onChange={ingredientName2}
                   />
-                </ul>
-              </li>
-            </div>
-          );
-        })}
-        <button onClick={recipeCreate}>저장</button>
-      </div>
-    </main>
+                  <input
+                    type="text"
+                    value={isIngredientWeight2}
+                    placeholder="수량"
+                    onChange={ingredientWeight2}
+                  />
+                  <button onClick={recipeIngredients2}>재료추가</button>
+                </div>
+                {isIngredients2.map((ingredient, index) => {
+                  return ingredient.length > 0 ? (
+                    <div key={index}>
+                      <li>
+                        <ul>
+                          <p>{ingredient}</p>
+                        </ul>
+                      </li>
+                      <button
+                        onClick={(e) => {
+                          ingredientsDelete2(index);
+                        }}
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  ) : null;
+                })}
+              </div>
+            )}
+          </div>
+          <a
+            href="https://www.coupang.com/?src=1042016&spec=10304902&addtag=900&ctag=HOME&lptag=coupang&itime=20231204140029&pageType=HOME&pageValue=HOME&wPcid=9892391435437537413314&wRef=www.google.com&wTime=20231204140029&redirect=landing&gclid=Cj0KCQiA67CrBhC1ARIsACKAa8TLUkyT9NmUgR5ONzXVGSo7W-ARSn0iiO9POcmNw8RYwWLuFWdgV54aAqQJEALw_wcB&mcid=e656d6631f474ee8b126919624b93f01&network=g"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className={styles.mycart__button}>구매</button>
+          </a>
+        </div>
+
+        <div className={styles.posting__ricipe}>
+          <div className={styles.posting__ricipe__title}>
+            <h1>
+              <FontAwesomeIcon className={styles.icon} icon={faUtensils} />
+              <span>조리순서</span>
+            </h1>
+            <button onClick={stepPosting}>추가</button>
+          </div>
+          {isSteps.map((step, index) => {
+            return (
+              <div key={index} className={styles.posting__ricipe__list}>
+                <li>
+                  <ul>
+                    <div>
+                      <p>{index + 1}</p>
+                    </div>
+                    <input
+                      type="textarea"
+                      value={step}
+                      className={styles.posting__ricipe__comment}
+                      onChange={(e) => {
+                        recipePosting(e, index);
+                      }}
+                    />
+                  </ul>
+                </li>
+              </div>
+            );
+          })}
+          <button onClick={recipeCreate}>저장</button>
+        </div>
+      </main>
+    </>
   );
 }

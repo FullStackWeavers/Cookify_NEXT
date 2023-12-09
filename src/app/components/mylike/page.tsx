@@ -7,15 +7,21 @@ import Image from 'next/image'
 import axios from 'axios'
 
 
+interface Recipe {
+  recipeId:number;
+  title: string;
+  thumbnail: string;
+}
+
 export default function MyLike() {
 
   const [isCount, setIsCount] = useState(15)
-  const [isLikeRecipe, setIsLikeRecipe] = useState<string[]>([])
+  const [isLikeRecipe, setIsLikeRecipe] = useState<Recipe[]>([])
 
   const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT
   useEffect(() => {
     axios
-      .get(`${BackendBaseURL}/heart`, {
+      .get(`${BackendBaseURL}/heart/myRecipe`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -23,19 +29,21 @@ export default function MyLike() {
       })
       .then((response) => {
         console.log(response.data);
+        setIsLikeRecipe(response.data)
       })
       .catch((error) => {
         console.error("API 호출 중 오류 발생:", error);
       });
   }, []);
+
   return (
     <div className={styles.mylike}>
       <div className={styles.recipe}>
-        {isLikeRecipe.map((item, index) => {
+        {isLikeRecipe.map((value, index) => {        
           return (
             <div key={index}>
-              <Image src={item} alt="" width={275} height={200} />
-              <p>recipe name</p>
+              <Image src={value.thumbnail} alt="" width={275} height={200} />
+              <p>{value.title}</p>
               <button>
                 <FontAwesomeIcon icon={faHeart} />
                 <span>{isCount}</span>

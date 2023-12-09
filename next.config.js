@@ -10,6 +10,7 @@ module.exports = {
       "search.pstatic.net",
       "recipe1.ezmember.co.kr",
       "lh3.googleusercontent.com",
+      "storage.googleapis.com"
     ],
   },
   async rewrites() {
