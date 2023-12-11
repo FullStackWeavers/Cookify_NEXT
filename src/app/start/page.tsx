@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./css/page.module.css";
 import Login from "../components/login/page";
 import Image from "next/image";
