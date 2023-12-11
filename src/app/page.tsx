@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import Header from "./components/header/header";
@@ -25,9 +25,9 @@ export default function Home() {
   const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
   const [isRecipe, setIsRecipe] = useState<Recipe[]>([]);
   const [isLikeNumber, setIsLikeNumber] = useState<number[]>([]);
-  const [isRecipeType, setIsRecipeType] = useState("user")
-
-
+  const [isRecipeType, setIsRecipeType] = useState("brief")
+  const [currentPage, setCurrentPage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const likeBtn = (recipeId: number, index: number) => {
     axios
@@ -66,35 +66,37 @@ export default function Home() {
   }
 
   const likeTypeUser = () => {
-    recipeType("user")
+    recipeType("brief")
   }
   const likeTypeDocs = () => {
-    recipeType("docs")
+    recipeType("recipe_docs")
   }
 
   const recipeType = (type: string) => {
     setIsRecipeType(type)
-    if (type == "user") {
-      axios.get(`${BackendBaseURL}/recipe/brief`, {
+    if (type == "brief") {
+      axios.get(`${BackendBaseURL}/recipe/${isRecipeType}`, {
         headers: {
           "Content-Type": "application/json",
         },
         withCredentials: true,
       })
         .then((response) => {
+          setCurrentPage(0)
           setIsRecipe(response.data);
         })
         .catch((error) => {
           console.error("API 호출 중 오류 발생:", error);
         });
-    } else if (type == "docs") {
-      axios.get(`${BackendBaseURL}/recipe/recipe_docs`, {
+    } else if (type == "recipe_docs") {
+      axios.get(`${BackendBaseURL}/recipe/${isRecipeType}`, {
         headers: {
           "Content-Type": "application/json",
         },
         withCredentials: true,
       })
         .then((response) => {
+          setCurrentPage(0)
           setIsRecipe(response.data);
         })
         .catch((error) => {
@@ -105,9 +107,7 @@ export default function Home() {
   const userRecipe = (recipeData: SetStateAction<Recipe[]>) => {
     console.log(recipeData);
     for (let i = 0; i < recipeData.length; i++) {
-      
     }
-    
     setIsRecipe(recipeData)
   }
 
@@ -128,6 +128,42 @@ export default function Home() {
       });
   }, []);
 
+  // 무한 스크롤 테스트//
+  const downContainerRef = useRef(null);
+
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = downContainerRef.current;
+    if (scrollHeight - scrollTop - clientHeight < 100 && !loading) {
+      loadMoreData();
+    }
+  };
+
+  const loadMoreData = () => {
+    setLoading(true);
+
+    axios
+      .get(`${BackendBaseURL}/recipe/${isRecipeType}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params: { page: currentPage + 1 },
+        withCredentials: true,
+      })
+      .then((response) => {
+        const newData = response.data;
+        if(newData.length > 19){
+          setIsRecipe(() => [...isRecipe, ...newData]);
+          setCurrentPage(() => currentPage + 1);
+        }
+      })
+      .catch((error) => {
+        console.error("API 호출 중 오류 발생:", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+/////////////////////////////////
   return (
     <>
       <Header />
@@ -136,7 +172,6 @@ export default function Home() {
         <section className={styles.popular_recipes_container}>
           <Image
             className={styles.image}
-            //src="/popular_recipes_image.png"
             src="/main8.png"
             alt="Profile Image"
             width={2000}
@@ -155,22 +190,28 @@ export default function Home() {
                 <button className={styles.postBtn}>레시피 작성</button>
               </Link>
             </div>
-            <div className={styles.downContainer}>
+            <div
+              className={styles.downContainer}
+              ref={downContainerRef}
+              onScroll={handleScroll}>
               {
                 isRecipe.map((value, index) => {
                   return (
-                    // <Link href={`/detail/${value.recipeId}`} key={index}>
                     <div className={styles.docs_card} key={index}>
-                      <Image src={value.thumbnail} alt="Docs Image" width={200} height={150} />
-                      <span className={styles.docs_card_name}>{value.title}</span>
+                      <Link href={`/detail/${value.recipeId}`}>
+                        <Image src={value.thumbnail} alt="Docs Image" width={200} height={150} />
+                        <span className={styles.docs_card_name}>{value.title}</span>
+                      </Link>
                       {isRecipeType === "user" ? <div className={styles.likeBtnBox}>
-                        <button className={styles.likeBtn} onClick={e => likeBtn(value.recipeId, index)}>
+                        <button className={styles.likeBtn} onClick={(e) => {
+                          e.stopPropagation();
+                          likeBtn(value.recipeId, index);
+                        }}>
                           <FontAwesomeIcon icon={faHeart} className={styles.icon} />
                           <span>{isRecipe[index].like}</span>
                         </button>
                       </div> : null}
                     </div>
-                    // </Link>
                   )
                 })}
             </div>
@@ -202,7 +243,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-      </main>
+      </main >
       <Footer />
     </>
   );

@@ -85,7 +85,7 @@
   min-height: 600px;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
   border-radius: 10px;
   box-shadow: 5px 5px 5px 5px rgb(234, 234, 234);
