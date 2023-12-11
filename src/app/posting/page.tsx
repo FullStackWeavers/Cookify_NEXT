@@ -5,8 +5,8 @@ import { faFileArrowUp, faUtensils } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
-import Header from "../components/header/header";
-import MyContent from "../components/mycontent/mycontent";
+import Header from "../components/header/page";
+import MyContent from "../components/mycontent/page";
 
 export default function Posting() {
   const [isTitle, setIsTitle] = useState("");
@@ -22,7 +22,7 @@ export default function Posting() {
   const [isIngredientName2, setIsIngredientName2] = useState("");
   const [isIngredientWeight2, setIsIngredientWeight2] = useState("");
   const [isUser, setIsUser] = useState({ email: "", name: "", picture: "" });
-  const [isImageUrl, setIsImageUrl] = useState("")
+  const [isImageUrl, setIsImageUrl] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const recipeTitle = () => {
@@ -54,7 +54,7 @@ export default function Posting() {
           withCredentials: true,
         })
         .then((response) => {
-          setIsImageUrl(response.data)
+          setIsImageUrl(response.data);
         })
         .catch((error) => {
           console.log("에러 응답:", error.response);
@@ -135,7 +135,7 @@ export default function Posting() {
         steps: isSteps,
         ingredients1: isIngredients1,
         ingredients2: isIngredients2,
-        thumbnail:isImageUrl
+        thumbnail: isImageUrl,
       };
 
       const response = await axios.post(
@@ -187,7 +187,9 @@ export default function Posting() {
             ) : (
               isTitle
             )}
-            <button onClick={recipeTitle}>{!isOnTitle ? "저장" : "수정"}</button>
+            <button onClick={recipeTitle}>
+              {!isOnTitle ? "저장" : "수정"}
+            </button>
           </p>
           {isImage ? (
             <Image

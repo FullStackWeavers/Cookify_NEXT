@@ -14,7 +14,7 @@ import MyLike from "../components/mylike/page";
 import { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
-import MyContent from "../components/mycontent/mycontent";
+import MyContent from "../components/mycontent/page";
 
 export default function MyPage() {
   const [isMyPage, setIsMyPage] = useState("MyInfo");
@@ -68,7 +68,8 @@ export default function MyPage() {
               className={isMyPage == "MyInfo" ? styles.onPage : ""}
               onClick={() => MyPageClick("MyInfo")}
             >
-              <FontAwesomeIcon className={styles.barIcon} icon={faUser} />내 정보
+              <FontAwesomeIcon className={styles.barIcon} icon={faUser} />내
+              정보
             </button>
             <button
               className={isMyPage == "MyFollow" ? styles.onPage : ""}

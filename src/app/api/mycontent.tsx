@@ -1,21 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import "./css/mycontent.css";
-import Link from "next/link";
 import axios from "axios";
-import Image from "next/image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBell,
-  faComment,
-  faSignOutAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import MyChat from "../modal/chat/page";
-import MyAlarm from "../modal/alarm/page";
 
-export default function MyContent() {
+export function myContent() {
   const [isHidden, setIsHidden] = useState(true);
   const [isChat, setIsChat] = useState(false);
   const [isAlarm, setIsAlarm] = useState(false);
@@ -106,42 +95,15 @@ export default function MyContent() {
     }
   };
 
-  return isHidden ? (
-    <div className="container">
-      <button onClick={ChatModalClick}>
-        <FontAwesomeIcon className="icon" icon={faComment} />
-      </button>
-      {isChat ? <MyChat ChatModalClick={ChatModalClick} /> : null}
-      <button onClick={AlarmModalClick}>
-        <FontAwesomeIcon className="icon" icon={faBell} />
-      </button>
-      {isAlarm ? <MyAlarm AlarmModalClick={AlarmModalClick} /> : null}
-      {isLogin === true ? (
-        <Link href="/">
-          <button onClick={LogoutClick}>
-            <FontAwesomeIcon className="icon" icon={faSignOutAlt} />
-          </button>
-        </Link>
-      ) : null}
-      {isLogin === true ? (
-        <div>
-          <Link href="/mypage">
-            <div className="profile">
-              <Image
-                className="icon"
-                src={isUser.picture}
-                alt="Profile Image"
-                width={50}
-                height={50}
-              />
-            </div>
-          </Link>
-        </div>
-      ) : (
-        <Link href="/start">
-          <button onClick={LoginClick}>login</button>
-        </Link>
-      )}
-    </div>
-  ) : null;
+  return {
+    isHidden,
+    isLogin,
+    isUser,
+    isChat,
+    isAlarm,
+    ChatModalClick,
+    AlarmModalClick,
+    LoginClick,
+    LogoutClick,
+  };
 }
