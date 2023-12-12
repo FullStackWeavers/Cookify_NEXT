@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
-export default function Detail() {
+export default function Detail(params: { params: { recipeId: any; }; }) {
   const backendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
   const [isRecipe, setIsRecipe] = useState({
     title: "",
@@ -27,6 +27,8 @@ export default function Detail() {
   const [isIngredients2, setIsIngredients2] = useState<string[]>([]);
   const [theIngredients2, setTheIsIngredients2] = useState(false);
   const [isRecipeSteps, setIsRecipeSteps] = useState<string[]>([]);
+  const recipeType = params.params.recipeId[0]
+  const recipeId = params.params.recipeId[1]
 
   const reIngredients = (data: { ingredients: any }) => {
     let a = data.ingredients.replace(/구매/g, " ");
@@ -59,27 +61,42 @@ export default function Detail() {
   };
 
   useEffect(() => {
-    const docsData = async () => {
-      try {
-        const recipeDocs = await axios.get(
-          `${backendBaseURL}/recipe/recipe_docs/14`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        );
-        setIsRecipe(recipeDocs.data);
-        reIngredients(recipeDocs.data);
-        reIngredients2(recipeDocs.data);
-        recipeSteps(recipeDocs.data);
-        console.log(recipeDocs);
-      } catch (error) {
-        alert("조회 에러");
-      }
-    };
-    docsData();
+    if (recipeType == "recipe_docs") {
+      axios.get(
+        `${backendBaseURL}/recipe/${recipeType}/${recipeId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      ).then((response) => {
+        setIsRecipe(response.data);
+        reIngredients(response.data);
+        reIngredients2(response.data);
+        recipeSteps(response.data);
+      })
+        .catch((error) => {
+          console.error("API 호출 중 오류 발생:", error);
+        });
+    } else if (recipeType == "brief") {
+      axios.get(`${backendBaseURL}/recipe/${recipeId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      ).then((response) => {
+        setIsRecipe(response.data);
+        reIngredients(response.data);
+        reIngredients2(response.data);
+        recipeSteps(response.data);
+      })
+        .catch((error) => {
+          console.error("API 호출 중 오류 발생:", error);
+        });
+    }
   }, []);
 
   return (
@@ -98,7 +115,7 @@ export default function Detail() {
           ></Image>
         </div>
         <div className={styles.photoSection_userDiv}>
-          <div className={styles.userCard}>
+          {recipeType == "brief" ? <div className={styles.userCard}>
             <Image
               className={styles.userCard_profileImage}
               src={"/profile.png"}
@@ -107,9 +124,9 @@ export default function Detail() {
               height={50}
             ></Image>
             <span className={styles.userCard_userName}>유저 이름</span>
-          </div>
+          </div> : null}
           <div className={styles.followCard}>
-            <button className={styles.followBtn}>팔로우</button>
+            {recipeType == "brief" ? <button className={styles.followBtn}>팔로우</button> : null}
             <div className={styles.heartBtn}>
               <svg
                 className={styles.heartIcon}
@@ -144,12 +161,12 @@ export default function Detail() {
           <div className={styles.ingredientsSection_contentDiv}>
             {theIngredients2
               ? isIngredients2.map((item, index) => {
-                  return (
-                    <div key={index} className={styles.ingredientDiv}>
-                      <span className={styles.name}>{item}</span>
-                    </div>
-                  );
-                })
+                return (
+                  <div key={index} className={styles.ingredientDiv}>
+                    <span className={styles.name}>{item}</span>
+                  </div>
+                );
+              })
               : null}
           </div>
         </div>

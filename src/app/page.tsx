@@ -22,7 +22,6 @@ interface Recipe {
 export default function Home() {
   const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
   const [isRecipe, setIsRecipe] = useState<Recipe[]>([]);
-  const [isLikeNumber, setIsLikeNumber] = useState<number[]>([]);
   const [isRecipeType, setIsRecipeType] = useState("brief");
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -69,46 +68,49 @@ export default function Home() {
   };
 
   const likeTypeUser = () => {
+    setCurrentPage(0);
+    setIsRecipeType("brief");
     recipeType("brief");
   };
   const likeTypeDocs = () => {
+    setCurrentPage(0);
+    setIsRecipeType("recipe_docs");
     recipeType("recipe_docs");
   };
 
   const recipeType = (type: string) => {
-    setIsRecipeType(type);
     if (type == "brief") {
       axios
-        .get(`${BackendBaseURL}/recipe/${isRecipeType}`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setCurrentPage(0);
-          setIsRecipe(response.data);
-        })
-        .catch((error) => {
-          console.error("API 호출 중 오류 발생:", error);
-        });
-    } else if (type == "recipe_docs") {
+      .get(`${BackendBaseURL}/recipe/${type}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        setIsRecipe(response.data);
+      })
+      .catch((error) => {
+        console.error("API 호출 중 오류 발생:", error);
+      });
+    }else if(type == "recipe_docs"){
       axios
-        .get(`${BackendBaseURL}/recipe/${isRecipeType}`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        })
-        .then((response) => {
-          setCurrentPage(0);
-          setIsRecipe(response.data);
-        })
-        .catch((error) => {
-          console.error("API 호출 중 오류 발생:", error);
-        });
+      .get(`${BackendBaseURL}/recipe/${type}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        setIsRecipe(response.data);
+      })
+      .catch((error) => {
+        console.error("API 호출 중 오류 발생:", error);
+      });
     }
+     
   };
+
   const userRecipe = (recipeData: SetStateAction<Recipe[]>) => {
     console.log(recipeData);
     for (let i = 0; i < recipeData.length; i++) {}
@@ -124,6 +126,8 @@ export default function Home() {
         withCredentials: true,
       })
       .then((response) => {
+        console.log(response.data);
+        
         userRecipe(response.data);
       })
       .catch((error) => {
@@ -131,13 +135,16 @@ export default function Home() {
       });
   }, []);
 
-  // 무한 스크롤 테스트//
   const downContainerRef = useRef(null);
 
   const handleScroll = () => {
-    const { scrollTop, scrollHeight, clientHeight } = downContainerRef.current;
-    if (scrollHeight - scrollTop - clientHeight < 100 && !loading) {
-      loadMoreData();
+    const container = downContainerRef.current;
+
+    if (container) {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      if (scrollHeight - scrollTop - clientHeight < 100 && !loading) {
+        loadMoreData();
+      }
     }
   };
 
@@ -154,7 +161,7 @@ export default function Home() {
       })
       .then((response) => {
         const newData = response.data;
-        if (newData.length > 19) {
+        if (newData.length == 20) {
           setIsRecipe(() => [...isRecipe, ...newData]);
           setCurrentPage(() => currentPage + 1);
         }
@@ -201,7 +208,7 @@ export default function Home() {
               {isRecipe.map((value, index) => {
                 return (
                   <div className={styles.docs_card} key={index}>
-                    <Link href={`/detail/${value.recipeId}`}>
+                    <Link href={`/detail/${isRecipeType}/${value.recipeId}`}>
                       <Image
                         src={value.thumbnail}
                         alt="Docs Image"
