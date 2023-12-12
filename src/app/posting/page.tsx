@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./css/page.module.css";
 import { faFileArrowUp, faUtensils } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import axios from "axios";
 import Header from "../components/header/page";
 import MyContent from "../components/mycontent/page";
 
@@ -148,7 +149,6 @@ export default function Posting() {
           },
         }
       );
-      console.log(response.data.id);
     } catch (error: any) {
       console.log("에러 응답:", error.response);
     }
@@ -164,7 +164,6 @@ export default function Posting() {
       })
       .then(function (response) {
         setIsUser(response.data);
-        console.log(response.data);
       })
       .catch(function (error) {
         console.log("에러 응답:", error.response);

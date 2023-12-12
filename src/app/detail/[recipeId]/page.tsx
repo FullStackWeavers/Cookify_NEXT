@@ -1,77 +1,86 @@
-'use client'
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
+import { SetStateAction, useEffect, useState } from "react";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styles from "./css/detail.module.css";
+import {
+  faArrowTurnDown,
+  faEllipsis,
+  faListOl,
+  faMessage,
+  faUtensils,
+} from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import styles from './css/detail.module.css'
-import { faArrowTurnDown, faEllipsis, faListOl, faMessage, faUtensils } from '@fortawesome/free-solid-svg-icons'
-import Image from 'next/image'
-import { SetStateAction, useEffect, useState } from 'react'
-import axios from 'axios'
-import { useRouter } from 'next/router'
-
-
-export default function Posting() {
-  const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT
-  const [isRecipe, setIsRecipe] = useState({ title: "", thumbnail: "", ingredients: "", ingredients2: "", steps: "" })
+export default function Detail() {
+  const backendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
+  const [isRecipe, setIsRecipe] = useState({
+    title: "",
+    thumbnail: "",
+    ingredients: "",
+    ingredients2: "",
+    steps: "",
+  });
   const [isIngredients, setIsIngredients] = useState<string[]>([]);
   const [isIngredients2, setIsIngredients2] = useState<string[]>([]);
   const [theIngredients2, setTheIsIngredients2] = useState(false);
   const [isRecipeSteps, setIsRecipeSteps] = useState<string[]>([]);
 
-  const router = useRouter();
-  // const [recipeId:string, recipeType:string] = router.query
-
   const reIngredients = (data: { ingredients: any }) => {
-    let a = (data.ingredients).replace(/구매/g, ' ')
-    let b = a.split(",")
-    setIsIngredients(b)
-  }
+    let a = data.ingredients.replace(/구매/g, " ");
+    let b = a.split(",");
+    setIsIngredients(b);
+  };
 
   const reIngredients2 = (data: { ingredients2: any }) => {
-    let a = (data.ingredients2).replace(/구매/g, ' ')
-    let b = a.split(",")
-    setIsIngredients2(b)
+    let a = data.ingredients2.replace(/구매/g, " ");
+    let b = a.split(",");
+    setIsIngredients2(b);
     Ingredients2();
-  }
+  };
 
   const Ingredients2 = () => {
-    setTheIsIngredients2(isIngredients2.length > 1 ? true : false)
-  }
+    setTheIsIngredients2(isIngredients2.length > 1 ? true : false);
+  };
 
   const recipeSteps = async (data: { steps: any }) => {
-    const redata = (data.steps).split('.')
-    const reSteps: SetStateAction<string[]> = []
+    const redata = data.steps.split(".");
+    const reSteps: SetStateAction<string[]> = [];
     for (let i = 0; i < redata.length; i++) {
       if (redata[i].charAt(0) == ",") {
-        reSteps.push(redata[i].slice(1, redata[i].length - 1))
+        reSteps.push(redata[i].slice(1, redata[i].length - 1));
       } else {
-        reSteps.push(redata[i])
+        reSteps.push(redata[i]);
       }
     }
     setIsRecipeSteps(reSteps);
-  }
+  };
 
   useEffect(() => {
     const docsData = async () => {
       try {
-        const recipeDocs = await axios.get(`${BackendBaseURL}/recipe/recipe_docs/14`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        });
+        const recipeDocs = await axios.get(
+          `${backendBaseURL}/recipe/recipe_docs/14`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
         setIsRecipe(recipeDocs.data);
         reIngredients(recipeDocs.data);
         reIngredients2(recipeDocs.data);
         recipeSteps(recipeDocs.data);
         console.log(recipeDocs);
       } catch (error) {
-        alert('조회 에러');
+        alert("조회 에러");
       }
     };
     docsData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   return (
     <main className={styles.main}>
@@ -80,17 +89,35 @@ export default function Posting() {
           <span>[{isRecipe.title}]</span>
         </div>
         <div className={styles.photoSection_photoDiv}>
-          <Image src={isRecipe.thumbnail} alt='FootPhoto' width={1000} height={400} layout='responsive'></Image>
+          <Image
+            src={isRecipe.thumbnail}
+            alt="FootPhoto"
+            width={1000}
+            height={400}
+            layout="responsive"
+          ></Image>
         </div>
         <div className={styles.photoSection_userDiv}>
           <div className={styles.userCard}>
-            <Image className={styles.userCard_profileImage} src={'/profile.png'} alt='profileImage' width={50} height={50}></Image>
+            <Image
+              className={styles.userCard_profileImage}
+              src={"/profile.png"}
+              alt="profileImage"
+              width={50}
+              height={50}
+            ></Image>
             <span className={styles.userCard_userName}>유저 이름</span>
           </div>
           <div className={styles.followCard}>
             <button className={styles.followBtn}>팔로우</button>
             <div className={styles.heartBtn}>
-              <svg className={styles.heartIcon} fill="#ff0000" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+              <svg
+                className={styles.heartIcon}
+                fill="#ff0000"
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 512 512"
+              >
                 <style></style>
                 <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" />
               </svg>
@@ -106,28 +133,23 @@ export default function Posting() {
         </div>
         <div className={styles.ingredientsSection_contentDivContainer}>
           <div className={styles.ingredientsSection_contentDiv}>
-            {
-              isIngredients.map((item, index) => {
-                return (
-                  <div key={index} className={styles.ingredientDiv}>
-                    <span className={styles.name}>{item}</span>
-
-                  </div>
-
-                )
-              })
-            }
+            {isIngredients.map((item, index) => {
+              return (
+                <div key={index} className={styles.ingredientDiv}>
+                  <span className={styles.name}>{item}</span>
+                </div>
+              );
+            })}
           </div>
           <div className={styles.ingredientsSection_contentDiv}>
-            {theIngredients2 ?
-              isIngredients2.map((item, index) => {
-                return (
-                  <div key={index} className={styles.ingredientDiv}>
-                    <span className={styles.name}>{item}</span>
-                  </div>
-
-                )
-              })
+            {theIngredients2
+              ? isIngredients2.map((item, index) => {
+                  return (
+                    <div key={index} className={styles.ingredientDiv}>
+                      <span className={styles.name}>{item}</span>
+                    </div>
+                  );
+                })
               : null}
           </div>
         </div>
@@ -142,20 +164,18 @@ export default function Posting() {
         </div>
         <div className={styles.makingNumberSection_NumberCardDiv}>
           {isRecipeSteps.map((item, index) => {
-            return (
-              item.length > 1 ?
-                <div key={index} className={styles.card}>
-                  <div className={styles.number}>
-                    <div className={styles.greenBox}>
-                      <span>{index + 1}</span>
-                    </div>
-                  </div>
-                  <div className={styles.explain}>
-                    <span>{item}</span>
+            return item.length > 1 ? (
+              <div key={index} className={styles.card}>
+                <div className={styles.number}>
+                  <div className={styles.greenBox}>
+                    <span>{index + 1}</span>
                   </div>
                 </div>
-                : null
-            )
+                <div className={styles.explain}>
+                  <span>{item}</span>
+                </div>
+              </div>
+            ) : null;
           })}
         </div>
       </section>
@@ -167,7 +187,12 @@ export default function Posting() {
         <div className={styles.commentsSection_commentsDiv}>
           <div className={styles.commentsSection_commentDiv}>
             <div className={styles.commentsSection_profileImageDiv}>
-              <Image src={'/profile.png'} alt='profileImage' width={50} height={50}></Image>
+              <Image
+                src={"/profile.png"}
+                alt="profileImage"
+                width={50}
+                height={50}
+              ></Image>
             </div>
             <div className={styles.commentsSection_middleDiv}>
               <span>User Name</span>
@@ -182,7 +207,12 @@ export default function Posting() {
           <div className={styles.commentsSection_comment_commentsDiv}>
             <FontAwesomeIcon className={styles.icon} icon={faArrowTurnDown} />
             <div className={styles.commentsSection_comment_commentDiv}>
-              <Image src={'/profile.png'} alt='profileImage' width={50} height={50}></Image>
+              <Image
+                src={"/profile.png"}
+                alt="profileImage"
+                width={50}
+                height={50}
+              ></Image>
               <div className={styles.commentsSection_middleDiv}>
                 <span>User Name</span>
                 <div className={styles.commentsSection_middleDiv_content}>
@@ -197,10 +227,15 @@ export default function Posting() {
         </div>
         <div className={styles.commentsSection_commetingDiv}>
           <div className={styles.profileImage}>
-            <Image src={'/profile.png'} alt='MyProfileImage' width={50} height={50}></Image>
+            <Image
+              src={"/profile.png"}
+              alt="MyProfileImage"
+              width={50}
+              height={50}
+            ></Image>
           </div>
           <div className={styles.middleDiv}>
-            <input type="text" placeholder='여기에 댓글을 입력하세요.' />
+            <input type="text" placeholder="여기에 댓글을 입력하세요." />
           </div>
           <div className={styles.lastDiv}>
             <button>댓글 달기</button>
@@ -208,5 +243,5 @@ export default function Posting() {
         </div>
       </section>
     </main>
-  )
+  );
 }
