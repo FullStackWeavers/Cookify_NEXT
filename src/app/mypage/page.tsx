@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./css/page.module.css";
 import {
@@ -7,37 +9,18 @@ import {
   faUser,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import MyContent from "../components/mycontent/page";
 import MyInfo from "../components/myinfo/page";
 import MyRecipe from "../components/myrecipe/page";
 import MyFollow from "../components/myfollow/page";
 import MyLike from "../components/mylike/page";
-import { useState } from "react";
-import Link from "next/link";
-import axios from "axios";
-import MyContent from "../components/mycontent/page";
 
 export default function MyPage() {
   const [isMyPage, setIsMyPage] = useState("MyInfo");
 
   const MyPageClick = (name: string) => {
     setIsMyPage(name);
-  };
-
-  const handleLogout = () => {
-    axios
-      .post("http://localhost:8080/api/auth/logout", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      })
-      .then((response) => {
-        console.log("Logout successful");
-        sessionStorage.setItem("isLogin", "false");
-      })
-      .catch((error) => {
-        console.error("API 호출 중 오류 발생:", error);
-      });
   };
 
   const MyPageCheack = () => {

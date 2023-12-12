@@ -166,7 +166,7 @@ export default function Home() {
         setLoading(false);
       });
   };
-  /////////////////////////////////
+
   return (
     <>
       <Header />
