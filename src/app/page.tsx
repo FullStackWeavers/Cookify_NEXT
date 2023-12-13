@@ -25,6 +25,10 @@ export default function Home() {
   const [isRecipeType, setIsRecipeType] = useState("brief");
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const isImg = useState(["1", "2", "3", "4", "5", "6"])
+  const [isImgCount, setisImgCount] = useState(0)
+  const downContainerRef = useRef(null);
+
 
   const likeBtn = (recipeId: number, index: number) => {
     axios
@@ -81,61 +85,41 @@ export default function Home() {
   const recipeType = (type: string) => {
     if (type == "brief") {
       axios
-      .get(`${BackendBaseURL}/recipe/${type}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      })
-      .then((response) => {
-        setIsRecipe(response.data);
-      })
-      .catch((error) => {
-        console.error("API 호출 중 오류 발생:", error);
-      });
-    }else if(type == "recipe_docs"){
+        .get(`${BackendBaseURL}/recipe/${type}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setIsRecipe(response.data);
+        })
+        .catch((error) => {
+          console.error("API 호출 중 오류 발생:", error);
+        });
+    } else if (type == "recipe_docs") {
       axios
-      .get(`${BackendBaseURL}/recipe/${type}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      })
-      .then((response) => {
-        setIsRecipe(response.data);
-      })
-      .catch((error) => {
-        console.error("API 호출 중 오류 발생:", error);
-      });
+        .get(`${BackendBaseURL}/recipe/${type}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setIsRecipe(response.data);
+        })
+        .catch((error) => {
+          console.error("API 호출 중 오류 발생:", error);
+        });
     }
-     
+
   };
 
   const userRecipe = (recipeData: SetStateAction<Recipe[]>) => {
     console.log(recipeData);
-    for (let i = 0; i < recipeData.length; i++) {}
+    for (let i = 0; i < recipeData.length; i++) { }
     setIsRecipe(recipeData);
   };
-
-  useEffect(() => {
-    axios
-      .get(`${BackendBaseURL}/recipe/brief`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      })
-      .then((response) => {
-        console.log(response.data);
-        
-        userRecipe(response.data);
-      })
-      .catch((error) => {
-        console.error("API 호출 중 오류 발생:", error);
-      });
-  }, []);
-
-  const downContainerRef = useRef(null);
 
   const handleScroll = () => {
     const container = downContainerRef.current;
@@ -150,7 +134,6 @@ export default function Home() {
 
   const loadMoreData = () => {
     setLoading(true);
-
     axios
       .get(`${BackendBaseURL}/recipe/${isRecipeType}`, {
         headers: {
@@ -174,20 +157,52 @@ export default function Home() {
       });
   };
 
+
+
+  useEffect(() => {
+    axios
+      .get(`${BackendBaseURL}/recipe/brief`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+
+        userRecipe(response.data);
+      })
+      .catch((error) => {
+        console.error("API 호출 중 오류 발생:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      isImgCount == 5 ? setisImgCount(0) : setisImgCount(isImgCount + 1)
+    }, 1000)
+  }, [isImgCount])
+
   return (
     <>
       <Header />
       <MyContent />
       <main className={styles.main}>
         <section className={styles.popular_recipes_container}>
-          <Image
-            className={styles.image}
-            src="/main8.png"
-            alt="Profile Image"
-            width={2000}
-            height={550}
-            loading="eager"
-          />
+            {isImg[0].map((value, index) => {
+              return (
+                <span className={styles.image} key={index} style={{display: isImgCount === index ? 'block' : 'none'}}>
+                  <Image
+                    src={`/main${value}.png`}
+                    alt="Profile Image"
+                    width={2000}
+                    height={550}
+                    loading="eager"
+                  />
+                </span>
+              )
+            })
+            }
         </section>
         <section className={styles.middle_container}>
           <div className={styles.filtered_recipes}>
@@ -219,7 +234,7 @@ export default function Home() {
                         {value.title}
                       </span>
                     </Link>
-                    {isRecipeType === "user" ? (
+                    {isRecipeType === "brief" ? (
                       <div className={styles.likeBtnBox}>
                         <button
                           className={styles.likeBtn}

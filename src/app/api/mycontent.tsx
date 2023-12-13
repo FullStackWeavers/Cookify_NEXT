@@ -11,22 +11,17 @@ export function myContent() {
   const [isUser, setIsUser] = useState({ email: "", name: "", picture: "" });
   const [isLogin, setIsLogin] = useState(false);
   const currentPath = usePathname();
+  const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const storedIsLogin = sessionStorage.getItem("isLogin");
         setIsLogin(storedIsLogin === "true");
-
-        if (currentPath === "/start") {
-          setIsHidden(false);
-        } else {
-          setIsHidden(true);
-        }
-
+        
         if (storedIsLogin === "true") {
           const response = await axios.get(
-            "http://localhost:8080/api/auth/user",
+            `${BackendBaseURL}/api/auth/user`,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -66,7 +61,8 @@ export function myContent() {
         withCredentials: true,
       });
       const userData = response.data;
-
+      console.log(userData);
+      
       sessionStorage.setItem("isLogin", "true");
       sessionStorage.setItem("isUser", JSON.stringify(userData));
 

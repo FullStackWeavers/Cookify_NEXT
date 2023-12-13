@@ -5,14 +5,15 @@ import axios from "../../axios_instance";
 
 export const googleLogin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
-
+        const token = sessionStorage.getItem("isLogin");
+        console.log(token);
+        
         if (token) {
-          const response = await axios.get("/api/auth/user", {
+          const response = await axios.get(`${BackendBaseURL}/api/auth/user`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -39,12 +40,15 @@ export const handleLogout = () => {
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("accessToken");
+      console.log(token);
+      
 
       if (token) {
-        await axios.post("/api/auth/logout", null, {
+        await axios.post("http://localhost:8080/api/auth/logout", {}, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         });
 
         localStorage.removeItem("accessToken");
