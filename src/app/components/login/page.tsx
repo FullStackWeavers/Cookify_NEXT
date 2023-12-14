@@ -8,11 +8,13 @@ const Login = () => {
     <div className={styles.login}>
       <button className={styles.loginImg} onClick={handleLogin}>
         <Image
-          src={"/img/web_light_rd_SU@2x.png"}
-          alt={""}
-          width={200}
-          height={50}
+          src={"/img/google-btn.png"}
+          alt={"LoginBtnImage"}
+          width={40}
+          height={40}
+          className={styles.Img}
         />
+        <span>Sign up with Google</span>
       </button>
     </div>
   );

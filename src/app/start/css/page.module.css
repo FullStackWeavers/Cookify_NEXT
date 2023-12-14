@@ -9,43 +9,60 @@
 
 .left {
   display: flex;
-  flex: 1;
-  justify-content: center;
-  min-width: 50%;
-  height: 100vh;
-  background: #D2DE32;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60%;
+  min-height: 100vh;
+  background: #d2de32;
 }
-.left div {
-  width: 60%;
-  height: 40%;
-  margin-top: 30%;
+.left .titleDiv {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 30px;
+  width: 100%;
+  height: 60px;
+  transition: 0.3 all;
+}
+.left .titleDiv .title:hover {
+  color: rgb(13, 13, 172);
+}
+.left .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  justify-content: center;
+  width: 100%;
+  flex: 1;
   text-align: center;
 }
-.left div img {
+.left .content .imgDiv {
+  width: 400px;
+  height: 250px;
+  box-shadow: 10px 10px 20px rgb(0, 0, 0);
+  border-radius: 30px;
+  overflow: hidden;
+}
+.left .content .imgDiv Image {
   width: 100%;
   height: 100%;
-  padding-bottom: 10%;
-}
-.left div h1 {
-  padding-bottom: 5%;
 }
 
 .right {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 50%;
+  align-items: center;
+  min-width: 40%;
   height: 100vh;
   text-align: center;
-  background: white;
-}
-.right .title {
-  margin-top: 6vh;
-  margin-right: 5vw;
-  text-align: right;
-  font-size: 2.2vw;
+  background-color: white;
 }
 .right .login {
-  margin: 0 auto;
-  margin-top: 12vh;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }/*# sourceMappingURL=page.module.css.map */

@@ -11,23 +11,45 @@
 
 .left {
   display: flex;
-  flex: 1;
-  justify-content: center;
-  min-width: 50%;
-  height: 100vh;
-  background: #D2DE32;
-  div {
-    width: 60%;
-    height: 40%;
-    margin-top: 30%;
-    text-align: center;
-    img{
-      width: 100%;
-      height: 100%;
-      padding-bottom: 10%;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60%;
+  min-height: 100vh;
+  background: #d2de32;
+  .titleDiv {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left: 30px;
+    width: 100%;
+    height: 60px;
+    transition: 0.3 all;
+    .title {
+      &:hover {
+        color: rgb(13, 13, 172);
+      }
     }
-    h1{
-      padding-bottom: 5%;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    justify-content: center;
+    width: 100%;
+    flex: 1;
+    text-align: center;
+    .imgDiv {
+      width: 400px;
+      height: 250px;
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
+      border-radius: 30px;
+      overflow: hidden;
+      Image {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 }
@@ -36,22 +58,16 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 50%;
+  align-items: center;
+  min-width: 40%;
   height: 100vh;
   text-align: center;
-  // @media #{m.$desktop}{
-  //   background: white;
-  // }
-  background: white;
-  .title{
-      margin-top: 6vh;
-      margin-right: 5vw;
-      text-align: right;
-      font-size: 2.2vw;
-    }
-  .login{
-    margin: 0 auto;
-    margin-top: 12vh;
+  background-color: white;
+  .login {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }
-

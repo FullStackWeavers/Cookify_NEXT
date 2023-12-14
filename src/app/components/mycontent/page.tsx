@@ -51,7 +51,11 @@ export default function MyContent() {
         </div>
       ) : (
         <Link href="/start">
-          <button onClick={api.LoginClick}>login</button>
+            <button onClick={api.LoginClick}>
+              <span>
+                Login
+              </span>
+            </button>
         </Link>
       )}
     </div>
