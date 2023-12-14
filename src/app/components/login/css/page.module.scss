@@ -1,8 +1,27 @@
-.login{
-  .loginImg{
-    margin: 10px;
-  }
-  div{
-
+.login {
+  width: 250px;
+  height: 60px;
+  .loginImg {
+    background-color: white;
+    width: 250px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 30px;
+    box-shadow: 2px 2px 4px rgba(211, 212, 214, 1);
+    transition: 0.3s all;
+    .Img {
+      margin-left: 10px;
+    }
+    &:hover {
+      background-color: rgb(110, 174, 233);
+      color: white;
+    }
+    span {
+      flex: 1;
+      font-size: 18px;
+      font-weight: bolder;
+    }
   }
 }

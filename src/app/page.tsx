@@ -30,6 +30,7 @@ export default function Home() {
                     width={2000}
                     height={550}
                     loading="eager"
+                    style={{ objectFit: 'cover', overflow:'hidden' }}
                   />
                 </span>
               )
