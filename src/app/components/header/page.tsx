@@ -19,10 +19,12 @@ export default function Header() {
         </Link>
       </section>
       <section className="right">
-        {api.isFindShow && <input type="text" placeholder="Search recipes" />}
-        <button onClick={api.ClickBtn}>
-          <FontAwesomeIcon className="icon" icon={faMagnifyingGlass} />
-        </button>
+        <form onSubmit={(e) => { e.preventDefault(); api.searchBtn(); }}>
+          {api.isFindShow && <input type="text" placeholder="Search recipes" onChange={(e) => { api.recipeSearch(e) }} />}
+          <button type="submit">
+            <FontAwesomeIcon className="icon" icon={faMagnifyingGlass} />
+          </button>
+        </form>
       </section>
     </header>
   );

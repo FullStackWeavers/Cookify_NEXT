@@ -58,48 +58,6 @@
 .main .middle_container .filtered_recipes .upContainer .postBtn:hover {
   background-color: #b1ba29;
 }
-.main .middle_container .filtered_recipes .downContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 10px 50px;
-  width: 100%;
-  overflow-y: auto;
-}
-.main .middle_container .filtered_recipes .downContainer .docs_card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px;
-  width: 250px;
-  height: 300px;
-  border: 1px solid rgb(185, 186, 187);
-  border-radius: 10px;
-}
-.main .middle_container .filtered_recipes .downContainer .docs_card .docs_card_name {
-  width: 100%;
-  text-align: start;
-  margin-top: 20px;
-}
-.main .middle_container .filtered_recipes .downContainer .docs_card .likeBtnBox {
-  width: 100%;
-}
-.main .middle_container .filtered_recipes .downContainer .docs_card .likeBtnBox .likeBtn {
-  background-color: rgb(185, 186, 187);
-  border-radius: 5px;
-  margin: 20px 0;
-  width: 100px;
-  height: 40px;
-  margin-left: auto;
-}
-.main .middle_container .filtered_recipes .downContainer .docs_card .likeBtnBox .likeBtn .icon {
-  width: 15px;
-  height: 15px;
-  margin-right: 10px;
-}
-.main .middle_container .filtered_recipes .downContainer .docs_card .likeBtnBox .likeBtn span {
-  font-size: 15px;
-}
 .main .last_container {
   display: flex;
   width: 100%;

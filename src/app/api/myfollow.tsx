@@ -49,7 +49,6 @@ export const myFollow = () => {
           withCredentials: true,
         })
         .then((response) => {
-          console.log(response.data);
           setIsUserFollow(response.data);
         })
         .catch((error) => {
