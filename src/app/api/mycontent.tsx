@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import { useEffect, useState } from "react";
@@ -6,7 +7,7 @@ import axios from "axios";
 import useWebSocket from "react-use-websocket";
 
 export function myContent() {
-  const [isHidden, setIsHidden] = useState(true);
+  const [isHidden, _setIsHidden] = useState(true);
   const [isChat, setIsChat] = useState(false);
   const [isAlarm, setIsAlarm] = useState(false);
   const [isUser, setIsUser] = useState({ email: "", name: "", picture: "" });
@@ -17,6 +18,8 @@ export function myContent() {
     "ws://localhost:8080/push",
     {
       onMessage: (event) => {
+        // WebSocket 메시지를 받았을 때의 로직을 추가
+        // 예: 서버에서 알림이 오면 setIsAlarm(true) 등
       },
     }
   );
@@ -26,17 +29,14 @@ export function myContent() {
       try {
         const storedIsLogin = sessionStorage.getItem("isLogin");
         setIsLogin(storedIsLogin === "true");
-        
+
         if (storedIsLogin === "true") {
-          const response = await axios.get(
-            `${BackendBaseURL}/api/auth/user`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-              withCredentials: true,
-            }
-          );
+          const response = await axios.get(`${BackendBaseURL}/api/auth/user`, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          });
           const userData = response.data;
 
           sessionStorage.setItem("isUser", JSON.stringify(userData));
@@ -50,11 +50,6 @@ export function myContent() {
     fetchData();
   }, [currentPath]);
 
-  const ChatModalClick = () => {
-    setIsChat(!isChat);
-    setIsAlarm(false);
-  };
-
   const AlarmModalClick = () => {
     setIsAlarm(!isAlarm);
     setIsChat(false);
@@ -62,28 +57,27 @@ export function myContent() {
 
   const LoginClick = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/auth/user", {
+      const response = await axios.get(`${BackendBaseURL}/api/auth/user`, {
         headers: {
           "Content-Type": "application/json",
         },
         withCredentials: true,
       });
       const userData = response.data;
-      console.log(userData);
-      
+
       sessionStorage.setItem("isLogin", "true");
       sessionStorage.setItem("isUser", JSON.stringify(userData));
 
       setIsUser(userData);
       setIsLogin(true);
     } catch (error) {
-      console.error("API 호출 중 오류 발생:", error);
+      console.error("로그인 중 오류 발생:", error);
     }
   };
 
   const LogoutClick = async () => {
     try {
-      await axios.post("http://localhost:8080/api/auth/logout", {
+      await axios.post(`${BackendBaseURL}/api/auth/logout`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -95,7 +89,7 @@ export function myContent() {
 
       setIsLogin(false);
     } catch (error) {
-      console.error("API 호출 중 오류 발생:", error);
+      console.error("로그아웃 중 오류 발생:", error);
     }
   };
 
@@ -105,10 +99,9 @@ export function myContent() {
     isUser,
     isChat,
     isAlarm,
-    ChatModalClick,
     AlarmModalClick,
     LoginClick,
     LogoutClick,
-    sendJsonMessage
+    sendJsonMessage,
   };
 }

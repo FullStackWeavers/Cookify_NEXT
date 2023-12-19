@@ -8,6 +8,7 @@ import { faFileArrowUp, faUtensils } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Header from "../components/header/page";
 import MyContent from "../components/mycontent/page";
+import Link from "next/link";
 
 export default function Posting() {
   const [isTitle, setIsTitle] = useState("");
@@ -354,7 +355,9 @@ export default function Posting() {
               </div>
             );
           })}
-          <button onClick={recipeCreate}>저장</button>
+          <Link href={"/"}>
+            <button onClick={recipeCreate}>저장</button>
+          </Link>
         </div>
       </main>
     </>

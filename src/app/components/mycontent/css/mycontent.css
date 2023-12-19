@@ -25,4 +25,8 @@
 .container .profile .icon {
   width: 30px;
   height: 30px;
+}
+.container .normal:hover {
+  color: #d2de31;
+  transform: scale(1.5);
 }/*# sourceMappingURL=mycontent.css.map */

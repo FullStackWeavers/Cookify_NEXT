@@ -18,7 +18,7 @@
 }
 .downContainer .docs_card .docs_card_name {
   width: 100%;
-  text-align: start;
+  text-align: text-start;
   margin-top: 20px;
 }
 .downContainer .docs_card .likeBtnBox {
