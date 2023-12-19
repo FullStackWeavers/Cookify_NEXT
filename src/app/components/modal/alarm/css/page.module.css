@@ -1,23 +1,11 @@
 .alarm {
   position: absolute;
   top: 90px;
-  width: 200px;
+  width: 270px;
   max-height: 80vh;
   box-shadow: 2px 2px 2px gray;
   border: 1px solid gray;
   background-color: white;
-}
-.alarm .alarmbar {
-  width: 100%;
-  height: 30px;
-  text-align: right;
-  line-height: 30px;
-  background-color: #cfcfcf;
-}
-.alarm .alarmbar button {
-  width: 20px;
-  height: 20px;
-  padding-right: 5px;
 }
 .alarm .container {
   display: flex;

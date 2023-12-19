@@ -10,6 +10,9 @@ import UserRecipe from "./components/recipe/userrecipe/page";
 import DocsRecipe from "./components/recipe/docsrecipe/page";
 import SearchRecipe from "./components/recipe/searchrecipe/page";
 import { Main } from "./api/main";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
 
 export default function Home() {
 
@@ -21,25 +24,24 @@ export default function Home() {
       <MyContent />
       <main className={styles.main}>
         <section className={styles.popular_recipes_container}>
-            {api.isImg[0].map((value, index) => {
-              return (
-                <span className={styles.image} key={index} style={{display: api.isImgCount === index ? 'block' : 'none'}}>
-                  <Image
-                    src={`/main${value}.png`}
-                    alt="Profile Image"
-                    width={2000}
-                    height={550}
-                    loading="eager"
-                    style={{ objectFit: 'cover', overflow:'hidden' }}
-                  />
-                </span>
-              )
-            })
-            }
+          {api.isImg[0].map((value, index) => {
+            return (
+              <span className={styles.image} key={index} style={{ display: api.isImgCount === index ? 'block' : 'none' }}>
+                <Image
+                  src={`/main${value}.png`}
+                  alt="Profile Image"
+                  width={2000}
+                  height={550}
+                  loading="eager"
+                />
+              </span>
+            )
+          })
+          }
         </section>
         <section className={styles.middle_container}>
           <div className={styles.filtered_recipes}>
-            {<div className={styles.upContainer}>
+            <div className={styles.upContainer}>
               <div className={styles.whenBtn}>
                 <button onClick={api.likeTypeUser}>유저 레시피</button>
                 <button onClick={api.likeTypeDocs}>기본 레시피</button>
@@ -47,10 +49,8 @@ export default function Home() {
               <Link href="/posting">
                 <button className={styles.postBtn}>레시피 작성</button>
               </Link>
-            </div>}
-            {/* <SearchRecipe/> */}
-            {api.isRecipeType == "brief" ?<UserRecipe/>:
-            <DocsRecipe/>}
+            </div>
+            {api.isRecipeType == "search" ? <SearchRecipe /> : api.isRecipeType == "brief" ? <UserRecipe /> : <DocsRecipe />}
           </div>
         </section>
         <section className={styles.last_container}>

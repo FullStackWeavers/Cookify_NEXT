@@ -25,7 +25,6 @@ export default function myLike() {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data);
         setIsLikeRecipe(response.data);
       })
       .catch((error) => {

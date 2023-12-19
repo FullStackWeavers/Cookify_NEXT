@@ -2,11 +2,23 @@
 
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import styles from "../alarm/css/page.module.css";
-import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useWebSocket from "react-use-websocket";
+import { useState } from "react";
 
 export default function MyAlarm(props: { AlarmModalClick: any }) {
   const { AlarmModalClick } = props;
+  const [websocketData, setWebsocketData] = useState<any[]>([]);
+  const { sendJsonMessage, lastJsonMessage } = useWebSocket(
+    "ws://localhost:8080/push",
+    {
+      onMessage: (event) => {
+        const data = [...websocketData]
+        setWebsocketData(() => [...data, event.data]);
+      },
+    }
+  );
+  
   return (
     <div className={styles.alarm}>
       <div className={styles.alarmbar}>
@@ -14,24 +26,15 @@ export default function MyAlarm(props: { AlarmModalClick: any }) {
           <FontAwesomeIcon icon={faXmark} />
         </button>
       </div>
-      <div className={styles.container}>
-        <div>
-          <Image src="/profile.png" alt="" width={50} height={50} />
-        </div>
-        <div>
-          <h4>username</h4>
-          <p>좋아요</p>
-        </div>
-      </div>
-      <div className={styles.container}>
-        <div>
-          <Image src="/profile.png" alt="" width={50} height={50} />
-        </div>
-        <div>
-          <h4>username</h4>
-          <p>좋아요</p>
-        </div>
-      </div>
+      {websocketData.map((value, index) => {
+        return (
+          <div className={styles.container} key={index}>
+            <div>
+              <p>{value}</p>
+            </div>
+          </div>
+        )
+      })}
     </div>
   );
 }

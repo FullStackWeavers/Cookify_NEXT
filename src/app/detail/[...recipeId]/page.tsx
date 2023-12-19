@@ -15,6 +15,7 @@ import {
 import Image from "next/image";
 import Header from "@/app/components/header/page";
 import MyContent from "@/app/components/mycontent/page";
+import Footer from "@/app/components/footer/page";
 
 export default function Detail(params: { params: { recipeId: any; }; }) {
   const backendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -201,7 +202,7 @@ export default function Detail(params: { params: { recipeId: any; }; }) {
             })}
           </div>
         </section>
-        <section className={styles.commentsSection}>
+        {/* <section className={styles.commentsSection}>
           <div className={styles.commentsSection_titleDiv}>
             <FontAwesomeIcon icon={faMessage} className={styles.icon} />
             <span>댓글</span>
@@ -263,8 +264,9 @@ export default function Detail(params: { params: { recipeId: any; }; }) {
               <button>댓글 달기</button>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
+      <Footer/>
     </>
   );
 }

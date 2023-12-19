@@ -25,7 +25,6 @@ export default function myRecipe() {
       })
       .then((response) => {
         setIsMyRecipe(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("API 호출 중 오류 발생:", error);

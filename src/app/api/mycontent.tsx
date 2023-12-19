@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import axios from "axios";
+import useWebSocket from "react-use-websocket";
 
 export function myContent() {
   const [isHidden, setIsHidden] = useState(true);
@@ -12,6 +13,13 @@ export function myContent() {
   const [isLogin, setIsLogin] = useState(false);
   const currentPath = usePathname();
   const BackendBaseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
+  const { sendJsonMessage, lastJsonMessage } = useWebSocket(
+    "ws://localhost:8080/push",
+    {
+      onMessage: (event) => {
+      },
+    }
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,5 +109,6 @@ export function myContent() {
     AlarmModalClick,
     LoginClick,
     LogoutClick,
+    sendJsonMessage
   };
 }
