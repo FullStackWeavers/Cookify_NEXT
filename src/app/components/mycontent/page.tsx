@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
+  faSignInAlt,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import MyAlarm from "../modal/alarm/page";
@@ -17,17 +18,26 @@ export default function MyContent() {
     <div className="container">
       <button>
         <Link href={"https://github.com/FullStackWeavers/Cookify_NEXT"}>
-          <FontAwesomeIcon className="icon" icon={faGithub} />
+          <FontAwesomeIcon
+            className={["icon", "normal"].join(" ")}
+            icon={faGithub}
+          />
         </Link>
       </button>
       <button onClick={api.AlarmModalClick}>
-        <FontAwesomeIcon className="icon" icon={faBell} />
+        <FontAwesomeIcon
+          className={["icon", "normal"].join(" ")}
+          icon={faBell}
+        />
       </button>
       {api.isAlarm ? <MyAlarm AlarmModalClick={api.AlarmModalClick} /> : null}
       {api.isLogin === true ? (
         <Link href="/">
           <button onClick={api.LogoutClick}>
-            <FontAwesomeIcon className="icon" icon={faSignOutAlt} />
+            <FontAwesomeIcon
+              className={["icon", "normal"].join(" ")}
+              icon={faSignOutAlt}
+            />
           </button>
         </Link>
       ) : null}
@@ -36,7 +46,7 @@ export default function MyContent() {
           <Link href="/mypage">
             <div className="profile">
               <Image
-                className="icon"
+                className={["icon", "normal"].join(" ")}
                 src={api.isUser.picture}
                 alt="Profile Image"
                 width={50}
@@ -48,9 +58,10 @@ export default function MyContent() {
       ) : (
         <Link href="/start">
           <button onClick={api.LoginClick}>
-            <span>
-              Login
-            </span>
+            <FontAwesomeIcon
+              className={["icon", "normal"].join(" ")}
+              icon={faSignInAlt}
+            />
           </button>
         </Link>
       )}

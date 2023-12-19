@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import { useEffect, useState } from "react";
 import axios from "../../axios_instance";
 
 export const handleLogin = () => {
